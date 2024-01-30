@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Expense Tracker</string>
+    <string name="textview">Textview</string>
+    <string-array name="Dashboard">
+        <item>Dashboard</item>
+        <item>Expenses</item>
+        <item>Savings</item>
+    </string-array>
+
+</resources>
