@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         String [] expenseCustomName = new String[20];
         for (int i = 0; i < 20; i++) {
             expenseType[i] = "Type " + (i+1);
-            expenseAmount[i] = i+"0000";
+            expenseAmount[i] = "+"+(i+6.34);
             expenseDate[i] = "May 30, 2024";
             expenseCustomName[i] = "CustomName "+(i+1);
         }
