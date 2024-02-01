@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="15dp">
+    android:layout_marginBottom="15dp"
+    android:backgroundTint="#3B2525">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="368dp"
         android:layout_height="96dp"
         android:layout_marginTop="1dp"
-        android:background="@android:color/white"
+        android:background="#1e2b37"
+        android:backgroundTint="#1e2b37"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,11 +38,11 @@
             <TextView
                 android:id="@+id/expenseCustomName"
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="56dp"
                 android:gravity="center"
                 android:paddingTop="7dp"
                 android:text="Cashback Offer"
-                android:textColor="#040404"
+                android:textColor="#FFFFFF"
                 android:textSize="17dp" />
 
             <TextView
@@ -49,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="enterainment"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -63,7 +66,7 @@
                 android:layout_height="59dp"
                 android:gravity="center"
                 android:text="+6.30"
-                android:textColor="#3FD891"
+                android:textColor="#28BD78"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -74,6 +77,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:text="oct 30,2024"
+                android:textColor="#FFFFFF"
                 android:textSize="10sp" />
 
         </LinearLayout>

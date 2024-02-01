@@ -5,8 +5,8 @@
     style="@style/TextAppearance.Material3.BodyLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#32F6F6F6"
-    android:backgroundTint="#32FFFFFF"
+    android:background="@color/charcoal"
+    android:backgroundTint="@color/charcoal"
     android:backgroundTintMode="add"
     android:clipToPadding="true"
     tools:context=".MainActivity">
@@ -17,8 +17,8 @@
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:background="@android:color/white"
-        android:backgroundTint="@android:color/white"
+        android:background="#1e2b37"
+        android:backgroundTint="#1e2b37"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,30 +27,49 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinputlayer"
             style="@style/CustomExposedDropdownMenu"
-            android:layout_width="161dp"
-            android:layout_height="72dp"
+            android:layout_width="187dp"
+            android:layout_height="75dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
-            android:backgroundTint="#A22B2B"
+            android:background="#1e2b37"
+            android:backgroundTint="#1e2b37"
             android:gravity="center"
             android:paddingRight="20dp"
-            app:boxCollapsedPaddingTop="0dp">
+            android:textColor="#FFFFFF"
+            android:textColorHint="@color/white"
+            app:boxBackgroundColor="#1e2b37"
+            app:boxBackgroundMode="filled"
+            app:boxCollapsedPaddingTop="0dp"
+            app:boxStrokeColor="#1e2b37"
+            app:boxStrokeErrorColor="#1e2b37"
+            app:counterOverflowTextColor="@color/white"
+            app:counterTextColor="@color/white"
+            app:cursorColor="@color/white"
+            app:cursorErrorColor="@color/white"
+            app:errorTextColor="@color/white"
+            app:helperTextTextColor="@color/white"
+            app:hintTextColor="@color/white"
+            app:placeholderTextColor="@color/white"
+            app:prefixTextColor="@color/white"
+            app:suffixTextColor="@color/white">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView"
-                android:layout_width="179dp"
-                android:layout_height="wrap_content"
+                android:layout_width="176dp"
+                android:layout_height="62dp"
                 android:layout_marginLeft="15sp"
-                android:backgroundTint="#FFFFFF"
-                android:drawableBottom="@color/white"
+                android:background="#1e2b37"
+                android:backgroundTint="#1e2b37"
+                android:backgroundTintMode="src_over"
                 android:gravity="center"
-                android:hapticFeedbackEnabled="true"
+                android:hapticFeedbackEnabled="false"
                 android:includeFontPadding="false"
                 android:inputType="none"
-                android:popupBackground="@android:color/white"
+                android:popupBackground="#1e2b37"
                 android:text="Dashboard"
                 android:textAlignment="center"
-                android:textColor="#000000" />
+                android:textColor="#FFFFFF"
+                android:textColorHint="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -60,7 +79,8 @@
         android:layout_width="176dp"
         android:layout_height="99dp"
         android:layout_marginTop="32dp"
-        android:background="@android:color/white"
+        android:background="#1e2b37"
+        android:backgroundTint="#1e2b37"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
@@ -73,7 +93,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingTop="15dp"
-            android:text="Total Amount" />
+            android:text="Total Amount"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/total_amout"
@@ -83,7 +104,7 @@
             android:gravity="center"
             android:text="12000"
             android:textAlignment="gravity"
-            android:textColor="#040404"
+            android:textColor="#FFFFFF"
             android:textColorHighlight="#000000"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -107,10 +128,10 @@
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_marginRight="15dp"
-            android:background="@android:color/white"
-            android:orientation="vertical"
+            android:background="#1e2b37"
+            android:backgroundTint="#1e2b37"
 
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView6"
@@ -118,7 +139,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="15dp"
-                android:text="Total Income" />
+                android:text="Total Income"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -126,7 +148,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="15000"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="normal|bold"
                 app:layout_constraintWidth_percent="0.5" />
@@ -137,7 +159,8 @@
         <LinearLayout
             android:layout_width="150dp"
             android:layout_height="100dp"
-            android:background="@android:color/white"
+            android:background="#1e2b37"
+            android:backgroundTint="#1e2b37"
             android:orientation="vertical">
 
             <TextView
@@ -146,7 +169,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="15dp"
-                android:text="Total Expenses" />
+                android:text="Total Expenses"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -154,7 +178,7 @@
                 android:layout_height="64dp"
                 android:gravity="center"
                 android:text="15000"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="normal|bold" />
 
@@ -169,7 +193,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:text="Recent Activity"
-        android:textColor="#000000"
+        android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />

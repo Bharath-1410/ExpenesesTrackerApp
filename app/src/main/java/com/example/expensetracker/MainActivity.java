@@ -4,16 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView expenseRecyclerView;
@@ -46,9 +46,31 @@ public class MainActivity extends AppCompatActivity {
 
         // Setting The Recycler View
         expenseRecyclerView = findViewById(R.id.expenseRecyclerView);
-        CustomRecylcerView r = new CustomRecylcerView(expenseAmount,expenseType,expenseDate,expenseCustomName,getApplicationContext());
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(expenseAmount,expenseType,expenseDate,expenseCustomName,getApplicationContext());
         expenseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        expenseRecyclerView.setAdapter(r);
+        expenseRecyclerView.setAdapter(customRecyclerView);
+
+        customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(MainActivity.this,ExpensesDetails.class);
+                String currentItem = customRecyclerView.getItemAtPosition(position);
+            }
+        });
+        customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(MainActivity.this, ExpensesDetails.class);
+                String currentItem = customRecyclerView.getItemAtPosition(position);
+                // Add any additional data you need to pass to the next activity
+                intent.putExtra("selectedItem", currentItem);
+                startActivity(intent);
+            }
+        });
+
+
+
+
 
     }
 
@@ -59,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         options.add("Savings");
         options.add("Expenses");
         options.remove(autoCompleteTextView.getText().toString());
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, options);
-        autoCompleteTextView.setAdapter(adapter);
+        CustomDropDown customAdapter = new CustomDropDown(this, options);
+        autoCompleteTextView.setAdapter(customAdapter);
     }
 }

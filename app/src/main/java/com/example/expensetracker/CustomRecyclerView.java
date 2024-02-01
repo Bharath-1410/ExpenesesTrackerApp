@@ -11,17 +11,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CustomRecylcerView extends RecyclerView.Adapter<CustomRecylcerView.ViewHolder> {
+public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHolder> {
     private  Object [] images;
     Context context;
     private String [] expenseAmount,expenseType,expenseDate,expenseCustomName;
-    public  CustomRecylcerView( String [] expenseAmount, String [] expenseType, String [] expenseDate, String [] expenseCustomName, Context context){
+    private static OnItemClickListener onItemClickListener;
+
+    public  CustomRecyclerView( String [] expenseAmount, String [] expenseType, String [] expenseDate, String [] expenseCustomName, Context context){
         this.context = context;
 //        this.images = images;
         this.expenseAmount = expenseAmount;
         this.expenseType = expenseType;
         this.expenseCustomName = expenseCustomName;
         this.expenseDate = expenseDate;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
     public static  class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView image;
@@ -37,9 +42,16 @@ public class CustomRecylcerView extends RecyclerView.Adapter<CustomRecylcerView.
             type = itemView.findViewById(R.id.expenseType);
             date = itemView.findViewById(R.id.expenseDate);
             amount = itemView.findViewById(R.id.expenseAmount);
+            itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onItemClickListener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,7 +60,7 @@ public class CustomRecylcerView extends RecyclerView.Adapter<CustomRecylcerView.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomRecylcerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomRecyclerView.ViewHolder holder, int position) {
         String name = expenseCustomName[position];
         String amount = expenseAmount[position];
         String date = expenseDate[position];
@@ -58,11 +70,23 @@ public class CustomRecylcerView extends RecyclerView.Adapter<CustomRecylcerView.
         holder.date.setText(date);
         holder.date.setText(date);
         holder.type.setText(type);
-        Log.d("CustomRecyclerView", "Name: " + name + ", Amount: " + amount + ", Date: " + date + ", Type: " + type);
+    //  Log.d("CustomRecyclerView", "Name: " + name + ", Amount: " + amount + ", Date: " + date + ", Type: " + type);
+
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener){
+        onItemClickListener = listener;
+    }
     @Override
     public int getItemCount() {
         return expenseCustomName.length;
+//        setOnItemClickListener();
+    }
+
+    public String getItemAtPosition(int position) {
+        if (position >= 0 && position < expenseCustomName.length) {
+            return expenseCustomName[position];
+        }
+        return null;
     }
 }
