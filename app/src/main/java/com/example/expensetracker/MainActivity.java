@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView expenseRecyclerView;
@@ -42,20 +43,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("MainActivity", "onCreate: ");
+
         AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
         TextInputLayout textInputLayout = findViewById(R.id.textinputlayer);
+
         String [] expenseType = new String[20];
         String [] expenseAmount = new String[20];
         String [] expenseDate = new String[20];
         String [] expenseCustomName = new String[20];
+
         for (int i = 0; i < 20; i++) {
             expenseType[i] = "Type " + (i+1);
             expenseAmount[i] = "+"+(i+6.34);
             expenseDate[i] = "May 30, 2024";
             expenseCustomName[i] = "CustomName "+(i+1);
         }
-
 
         // Updating DashBoard
         updateOptions(autoCompleteTextView);
@@ -70,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(expenseAmount,expenseType,expenseDate,expenseCustomName,getApplicationContext());
         expenseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         expenseRecyclerView.setAdapter(customRecyclerView);
-
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Creating New Fragment For Adding New Expenses
         FloatingActionButton fab = findViewById(R.id.addExpenses);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
@@ -89,18 +91,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Receiving Data Of New Expenses
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 464 && resultCode == RESULT_OK && data != null) {
             String expenseData = data.getStringExtra("expenseKey");
             Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
         }
 
     }
+
+    // Method To Handle Dashboard Updation
     private void updateOptions(AutoCompleteTextView autoCompleteTextView){
-        //  Method To Handle Dashboard Updation
         ArrayList<String> options= new ArrayList<>();
         options.add("Dashboard");
         options.add("Savings");

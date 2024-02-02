@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:backgroundTint="@color/charcoal">
+    android:backgroundTint="@color/charcoal"
+    android:focusable="false">
 
     <EditText
         android:id="@+id/newCustomName"
         android:layout_width="300dp"
-        android:layout_height="56dp"
+        android:layout_height="60dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="55dp"
@@ -23,10 +24,12 @@
         android:inputType="text"
         android:paddingLeft="25dp"
         android:shadowColor="@color/subBackGround"
-        android:textColor="@android:color/white"
-        android:textColorHighlight="@color/subBackGround"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
-        android:textColorLink="@color/subBackGround"
+        android:textColorLink="@color/white"
+        android:textCursorDrawable="@null"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
@@ -34,65 +37,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText3"
+        android:id="@+id/newAmount"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
         android:layout_marginTop="35dp"
-        android:layout_marginEnd="55dp"
+        android:layout_marginRight="55dp"
+        android:height="60dp"
         android:background="@drawable/round_shape_background"
-        android:backgroundTint="@null"
         android:ems="10"
-        android:foregroundGravity="center_vertical"
         android:hint="Amount"
-        android:inputType="text"
+        android:inputType="numberSigned"
         android:paddingLeft="25dp"
-        android:shadowColor="@color/subBackGround"
-        android:textColor="@android:color/white"
-        android:textColorHighlight="@color/subBackGround"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textColorLink="@color/subBackGround"
+        android:textCursorDrawable="@null"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newCustomName" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="55dp"
-        android:background="@drawable/round_shape_background"
-        android:backgroundTint="@null"
-        android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText3">
-
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/subBackGround"
-            android:backgroundTint="@color/subBackGround"
-            android:foregroundGravity="center_vertical"
-            android:hint="Tag"
-            android:paddingLeft="25dp"
-            android:shadowColor="@color/subBackGround"
-            android:textColor="@android:color/white"
-            android:textColorHighlight="@color/subBackGround"
-            android:textColorHint="@color/white"
-            android:textColorLink="@color/subBackGround"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <EditText
-        android:id="@+id/editTextText5"
+        android:id="@+id/newDate"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="55dp"
@@ -106,22 +74,24 @@
         android:inputType="text"
         android:paddingLeft="25dp"
         android:shadowColor="@color/subBackGround"
-        android:textColor="@android:color/white"
-        android:textColorHighlight="@color/subBackGround"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
-        android:textColorLink="@color/subBackGround"
+        android:textColorLink="@color/white"
+        android:textCursorDrawable="@null"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/newAmount" />
 
     <EditText
-        android:id="@+id/editTextText7"
+        android:id="@+id/newNote"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="330dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/round_shape_background"
         android:backgroundTint="@null"
@@ -131,14 +101,112 @@
         android:inputType="text"
         android:paddingLeft="25dp"
         android:shadowColor="@color/subBackGround"
-        android:textColor="@android:color/white"
-        android:textColorHighlight="@color/subBackGround"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
-        android:textColorLink="@color/subBackGround"
+        android:textColorLink="@color/white"
+        android:textCursorDrawable="@null"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText5" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputTypeLayer"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="55dp"
+        android:inputType="none"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newNote">
+
+        <AutoCompleteTextView
+            android:id="@+id/transactionType"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/round_shape_background"
+            android:focusable="false"
+            android:hint="Transaction Type"
+            android:inputType="none"
+            android:paddingLeft="25dp"
+            android:shadowColor="@color/white"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/white"
+            android:textCursorDrawable="@null"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:simpleItemSelectedColor="@color/white"
+            app:simpleItemSelectedRippleColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputTaglayer"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="55dp"
+        android:inputType="none"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputTypeLayer">
+
+        <AutoCompleteTextView
+            android:id="@+id/inputTag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/round_shape_background"
+            android:hint="Tag"
+            android:inputType="none"
+            android:focusable="false"
+            android:paddingLeft="25dp"
+            android:shadowColor="@color/white"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white"
+            android:textColorLink="@color/white"
+            android:textCursorDrawable="@null"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:simpleItemSelectedColor="@color/white"
+            app:simpleItemSelectedRippleColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="63dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/round_borders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputTaglayer">
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/blue"
+            android:gravity="center"
+            android:text="Add Transaction"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
