@@ -83,7 +83,19 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
 //        setOnItemClickListener();
     }
 
-    public String getItemAtPosition(int position) {
+    public String getCustomNameAtPosition(int position) {
+        if (position >= 0 && position < expenseCustomName.length) {
+            return expenseCustomName[position];
+        }
+        return null;
+    }
+    public String getDateAtPosition(int position) {
+        if (position >= 0 && position < expenseCustomName.length) {
+            return expenseCustomName[position];
+        }
+        return null;
+    }
+    public String getAtPosition(int position) {
         if (position >= 0 && position < expenseCustomName.length) {
             return expenseCustomName[position];
         }

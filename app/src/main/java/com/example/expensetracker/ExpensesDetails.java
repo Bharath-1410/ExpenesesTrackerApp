@@ -13,8 +13,8 @@ public class ExpensesDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expenses_detail_layout);
-        String selectedItem = getIntent().getStringExtra("selectedItem");
+        String customName = getIntent().getStringExtra("selectedItem");
         expenseCustomName = findViewById(R.id.expensesName);
-        expenseCustomName.setText("venkatsai");
+        expenseCustomName.setText(customName);
     }
 }

@@ -1,27 +1,48 @@
 package com.example.expensetracker;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView expenseRecyclerView;
+    private final ActivityResultLauncher<Intent> startForResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            if (data != null) {
+                                String expenseData = data.getStringExtra("expenseKey");
+                                Log.d("MainActivity", "Expense Data Received: " + expenseData);
+                                Toast.makeText(MainActivity.this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d("MainActivity", "onCreate: ");
         AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
         TextInputLayout textInputLayout = findViewById(R.id.textinputlayer);
         String [] expenseType = new String[20];
@@ -53,27 +74,31 @@ public class MainActivity extends AppCompatActivity {
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(MainActivity.this,ExpensesDetails.class);
-                String currentItem = customRecyclerView.getItemAtPosition(position);
-            }
-        });
-        customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
                 Intent intent = new Intent(MainActivity.this, ExpensesDetails.class);
-                String currentItem = customRecyclerView.getItemAtPosition(position);
-                // Add any additional data you need to pass to the next activity
-                intent.putExtra("selectedItem", currentItem);
+                String customName = customRecyclerView.getCustomNameAtPosition(position);
+                intent.putExtra("customName", customName);
                 startActivity(intent);
             }
         });
 
-
-
-
-
+        FloatingActionButton fab = findViewById(R.id.addExpenses);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
+            Log.d("MainActivity", "FloatingActionButton clicked");
+            startActivity(intent);
+        });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 464 && resultCode == RESULT_OK && data != null) {
+            String expenseData = data.getStringExtra("expenseKey");
+            Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
+        }
+
+    }
     private void updateOptions(AutoCompleteTextView autoCompleteTextView){
         //  Method To Handle Dashboard Updation
         ArrayList<String> options= new ArrayList<>();
