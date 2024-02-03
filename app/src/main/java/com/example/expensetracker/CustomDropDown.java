@@ -16,7 +16,7 @@ import java.util.List;
 public class CustomDropDown extends ArrayAdapter<String> {
 
     public CustomDropDown(Context context, List<String> items) {
-        super(context, android.R.layout.simple_dropdown_item_1line, items);
+        super(context, android.R.layout.simple_spinner_dropdown_item, items);
     }
 
     @NonNull
@@ -29,10 +29,9 @@ public class CustomDropDown extends ArrayAdapter<String> {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return createItemView(position, convertView, parent);
     }
-
     private View createItemView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_dropdown_item_1line, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
         }
 
         TextView textView = convertView.findViewById(android.R.id.text1);

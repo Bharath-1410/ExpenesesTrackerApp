@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AutoCompleteTextView autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
-        TextInputLayout textInputLayout = findViewById(R.id.textinputlayer);
 
         String [] expenseType = new String[20];
         String [] expenseAmount = new String[20];
@@ -59,13 +58,23 @@ public class MainActivity extends AppCompatActivity {
             expenseCustomName[i] = "CustomName "+(i+1);
         }
 
+        Spinner dashboard = findViewById(R.id.dashBoard);
+        ArrayList<String> dashboardOptions= new ArrayList<>();
+        dashboardOptions.add("Dashboard");
+        dashboardOptions.add("Savings");
+        dashboardOptions.add("Expenses");
+        CustomDropDown dashBoardDropDown = new CustomDropDown(this, dashboardOptions);
+        dashBoardDropDown.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dashboard.setAdapter(dashBoardDropDown);
+
         // Updating DashBoard
-        updateOptions(autoCompleteTextView);
-        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-            updateOptions(autoCompleteTextView);
-            String selectedOption = (String) parent.getItemAtPosition(position);
-            textInputLayout.setError(null);
-        });
+//        updateOptions(autoCompleteTextView);
+//        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+//            updateOptions(autoCompleteTextView);
+//            String selectedOption = (String) parent.getItemAtPosition(position);
+//            textInputLayout.setError(null);
+//        });
+
 
         // Setting The Recycler View
         expenseRecyclerView = findViewById(R.id.expenseRecyclerView);

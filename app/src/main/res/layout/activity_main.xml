@@ -12,74 +12,11 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:background="@color/subBackGround"
-        android:backgroundTint="@color/subBackGround"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textinputlayer"
-            style="@style/CustomExposedDropdownMenu"
-            android:layout_width="187dp"
-            android:layout_height="75dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@color/subBackGround"
-            android:backgroundTint="@color/subBackGround"
-            android:gravity="center"
-            android:paddingRight="20dp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="@color/white"
-            app:boxBackgroundColor="#1e2b37"
-            app:boxBackgroundMode="filled"
-            app:boxCollapsedPaddingTop="0dp"
-            app:boxStrokeColor="#1e2b37"
-            app:boxStrokeErrorColor="#1e2b37"
-            app:counterOverflowTextColor="@color/white"
-            app:counterTextColor="@color/white"
-            app:cursorColor="@color/white"
-            app:cursorErrorColor="@color/white"
-            app:errorTextColor="@color/white"
-            app:helperTextTextColor="@color/white"
-            app:hintTextColor="@color/white"
-            app:placeholderTextColor="@color/white"
-            app:prefixTextColor="@color/white"
-            app:suffixTextColor="@color/white">
-
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView"
-                android:layout_width="176dp"
-                android:layout_height="62dp"
-                android:layout_marginLeft="15sp"
-                android:background="@color/subBackGround"
-                android:backgroundTint="@color/subBackGround"
-                android:backgroundTintMode="src_over"
-                android:gravity="center"
-                android:hapticFeedbackEnabled="false"
-                android:includeFontPadding="false"
-                android:inputType="none"
-                android:popupBackground="#1e2b37"
-                android:text="Dashboard"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textColorHint="@color/white" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="340dp"
         android:layout_height="121dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:background="@color/subBackGround"
         android:backgroundTint="@color/subBackGround"
@@ -87,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <TextView
             android:layout_width="match_parent"
@@ -232,6 +169,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/white"
         app:srcCompat="@drawable/add_expenses" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="409dp"
+        android:layout_height="70dp"
+        android:background="@color/subBackGround"
+        android:gravity="start|center_vertical"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <Spinner
+            android:id="@+id/dashBoard"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:background="@color/subBackGround"
+            android:popupBackground="@color/subBackGround"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="5dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:srcCompat="@drawable/down_arrow" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
