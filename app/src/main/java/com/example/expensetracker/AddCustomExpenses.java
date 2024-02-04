@@ -30,11 +30,10 @@ import java.util.ArrayList;
 
 public class AddCustomExpenses extends Activity {
     EditText newCustomName,newAmount,newDate,newNote;
-    TextView newRecyclerExpenseCustomName,newRecyclerExpenseAmount,newRecyclerExpenseDate,newRecyclerExpenseType;
+//    TextView newRecyclerExpenseCustomName,newRecyclerExpenseAmount,newRecyclerExpenseDate,newRecyclerExpenseType;
     TextView addTransaction;
     DBHelper dbHelper;
-    CustomRecyclerView customRecyclerView;
-    RecyclerView expenseRecyclerView;
+//    RecyclerView expenseRecyclerView;
     ArrayList<String> expenseCustomName = new ArrayList<>();
     ArrayList<String> expenseDate = new ArrayList<>();
     ArrayList<String> expenseAmount = new ArrayList<>();
@@ -88,11 +87,12 @@ public class AddCustomExpenses extends Activity {
                 long newRowId = 0;
                 try{
                     newRowId = dbHelper.addTransaction(new Transaction(customName,amount,type,tag,date,note));
+//                    View mainActivity = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_main,null);
+//                    expenseRecyclerView = mainActivity.findViewById(R.id.expenseRecyclerView);
+                    MainActivity.updateRecyclerViewData(getApplicationContext(),MainActivity.expenseRecyclerView);
                 }catch (Exception e){
                     Log.d("DBHelper", e.toString());
                 }
-
-//                System.out.println("newrowid found"+newRowId);
                 if (newRowId != -1) {
                     addSnackBar(v, "Successfully Added " + customName, "Success");
                     Log.d("DBHelper", "Insertion Successful");
