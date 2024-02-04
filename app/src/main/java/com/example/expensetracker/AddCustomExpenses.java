@@ -47,6 +47,7 @@ public class AddCustomExpenses extends Activity {
         newAmount = findViewById(R.id.newAmount);
         newDate = findViewById(R.id.newDate);
         newNote= findViewById(R.id.newNote);
+
         addTransaction = findViewById(R.id.addNewTransaction);
 
         // Dynamically + Statically Creating And Creating the Tags
