@@ -65,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
         dashBoardDropDown.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dashboard.setAdapter(dashBoardDropDown);
 
-
+        for (int i = 0; i < 20; i++) {
+            expenseType.add ("Type " + (i+1));
+            expenseAmount.add("+"+(i+6.34));
+            expenseDate.add("May 30, 2024");
+            expenseCustomName.add( "CustomName "+(i+1));
+        }
         // Creating New Fragment For Adding New Expenses
         FloatingActionButton fab = findViewById(R.id.addExpenses);
         fab.setOnClickListener(view -> {
@@ -73,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "FloatingActionButton clicked");
             startActivity(intent);
         });
+        expenseRecyclerView = findViewById(R.id.expenseRecyclerView);
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(expenseAmount,expenseType,expenseDate,expenseCustomName,getApplicationContext());
+        expenseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        expenseRecyclerView.setAdapter(customRecyclerView);
 //        expenseAmount.add("6000");
 //        expenseType.add("Entertainment");
 //        expenseDate.add("june 4");
