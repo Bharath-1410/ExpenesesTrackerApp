@@ -6,4 +6,6 @@
     <color name="charcoal">#090c0f</color>
     <color name="subBackGround">#1b1c22</color>
     <color name="blue">#0d6efd</color>
+    <color name="green">#28BD78</color>
+    <color name="warning">#e64545</color>
 </resources>

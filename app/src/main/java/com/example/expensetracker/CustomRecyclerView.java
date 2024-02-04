@@ -11,13 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHolder> {
     private  Object [] images;
     Context context;
-    private String [] expenseAmount,expenseType,expenseDate,expenseCustomName;
+    private ArrayList<String> expenseAmount;
+    private ArrayList<String> expenseDate;
+    private ArrayList<String> expenseType;
+    private ArrayList<String> expenseCustomName;
     private static OnItemClickListener onItemClickListener;
 
-    public  CustomRecyclerView( String [] expenseAmount, String [] expenseType, String [] expenseDate, String [] expenseCustomName, Context context){
+    public  CustomRecyclerView( ArrayList<String> expenseAmount, ArrayList<String> expenseType, ArrayList<String> expenseDate, ArrayList<String> expenseCustomName, Context context){
         this.context = context;
 //        this.images = images;
         this.expenseAmount = expenseAmount;
@@ -58,20 +63,25 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expenses_recycler_view,parent,false);
         return new ViewHolder(view);
     }
-
+    public void updateData(ArrayList<String> updatedExpenseAmount, ArrayList<String> updatedExpenseType, ArrayList<String> updatedExpenseDate, ArrayList<String> updatedExpenseCustomName) {
+        this.expenseAmount = updatedExpenseAmount;
+        this.expenseType = updatedExpenseType;
+        this.expenseDate = updatedExpenseDate;
+        this.expenseCustomName = updatedExpenseCustomName;
+    }
     @Override
     public void onBindViewHolder(@NonNull CustomRecyclerView.ViewHolder holder, int position) {
-        String name = expenseCustomName[position];
-        String amount = expenseAmount[position];
-        String date = expenseDate[position];
-        String type = expenseType[position];
+        String name = expenseCustomName.get(position);
+        String amount = expenseAmount.get(position);
+        String date = expenseDate.get(position);
+        String type = expenseType.get(position);
+
         holder.name.setText(name);
         holder.amount.setText(amount);
         holder.date.setText(date);
         holder.date.setText(date);
         holder.type.setText(type);
-    //  Log.d("CustomRecyclerView", "Name: " + name + ", Amount: " + amount + ", Date: " + date + ", Type: " + type);
-
+        Log.d("CustomRecyclerView", "Name: " + name + ", Amount: " + amount + ", Date: " + date + ", Type: " + type);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -79,25 +89,25 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
     }
     @Override
     public int getItemCount() {
-        return expenseCustomName.length;
+        return expenseCustomName.size();
 //        setOnItemClickListener();
     }
 
     public String getCustomNameAtPosition(int position) {
-        if (position >= 0 && position < expenseCustomName.length) {
-            return expenseCustomName[position];
+        if (position >= 0 && position < expenseCustomName.size()) {
+            return expenseCustomName.get(position);
         }
         return null;
     }
     public String getDateAtPosition(int position) {
-        if (position >= 0 && position < expenseCustomName.length) {
-            return expenseCustomName[position];
+        if (position >= 0 && position < expenseCustomName.size()) {
+            return expenseCustomName.get(position);
         }
         return null;
     }
     public String getAtPosition(int position) {
-        if (position >= 0 && position < expenseCustomName.length) {
-            return expenseCustomName[position];
+        if (position >= 0 && position < expenseCustomName.size()) {
+            return expenseCustomName.get(position);
         }
         return null;
     }

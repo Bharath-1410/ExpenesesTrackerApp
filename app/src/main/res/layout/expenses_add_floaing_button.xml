@@ -91,7 +91,7 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="330dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="55dp"
         android:background="@drawable/round_shape_background"
         android:backgroundTint="@null"
@@ -111,7 +111,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/newDate" />
 
     <Spinner
         android:id="@+id/transactionType"

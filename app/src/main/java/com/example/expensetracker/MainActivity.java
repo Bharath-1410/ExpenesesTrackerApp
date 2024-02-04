@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +29,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView expenseRecyclerView;
+    CustomRecyclerView customRecyclerView;
+    DBHelper dbHelper;
+    private ArrayList<String> expenseAmount;
+    private ArrayList<String> expenseDate;
+    private ArrayList<String> expenseType;
+    private ArrayList<String> expenseCustomName;
+    ArrayList<String> dashboardOptions= new ArrayList<>();
     private final ActivityResultLauncher<Intent> startForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
@@ -45,21 +54,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new DBHelper(getApplicationContext());
 
-        String [] expenseType = new String[20];
-        String [] expenseAmount = new String[20];
-        String [] expenseDate = new String[20];
-        String [] expenseCustomName = new String[20];
-
-        for (int i = 0; i < 20; i++) {
-            expenseType[i] = "Type " + (i+1);
-            expenseAmount[i] = "+"+(i+6.34);
-            expenseDate[i] = "May 30, 2024";
-            expenseCustomName[i] = "CustomName "+(i+1);
-        }
-
+        // DashBoard Updation
         Spinner dashboard = findViewById(R.id.dashBoard);
-        ArrayList<String> dashboardOptions= new ArrayList<>();
         dashboardOptions.add("Dashboard");
         dashboardOptions.add("Savings");
         dashboardOptions.add("Expenses");
@@ -67,29 +65,6 @@ public class MainActivity extends AppCompatActivity {
         dashBoardDropDown.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dashboard.setAdapter(dashBoardDropDown);
 
-        // Updating DashBoard
-//        updateOptions(autoCompleteTextView);
-//        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-//            updateOptions(autoCompleteTextView);
-//            String selectedOption = (String) parent.getItemAtPosition(position);
-//            textInputLayout.setError(null);
-//        });
-
-
-        // Setting The Recycler View
-        expenseRecyclerView = findViewById(R.id.expenseRecyclerView);
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(expenseAmount,expenseType,expenseDate,expenseCustomName,getApplicationContext());
-        expenseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        expenseRecyclerView.setAdapter(customRecyclerView);
-        customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(MainActivity.this, ExpensesDetails.class);
-                String customName = customRecyclerView.getCustomNameAtPosition(position);
-                intent.putExtra("customName", customName);
-                startActivity(intent);
-            }
-        });
 
         // Creating New Fragment For Adding New Expenses
         FloatingActionButton fab = findViewById(R.id.addExpenses);
@@ -98,8 +73,20 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "FloatingActionButton clicked");
             startActivity(intent);
         });
+//        expenseAmount.add("6000");
+//        expenseType.add("Entertainment");
+//        expenseDate.add("june 4");
+//        expenseCustomName.add("Cash Back");
+        try {
+//            expenseRecyclerView = findViewById(R.id.expenseRecyclerView);
+//            customRecyclerView = new CustomRecyclerView(expenseAmount,expenseType,expenseDate,expenseCustomName,getApplicationContext());
+//            expenseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            expenseRecyclerView.setAdapter(customRecyclerView);
+        }catch (Exception e){
+            Log.e("MainActivity", "onCreate: "+e.toString() );
+        }
+//        updateRecyclerViewData();
     }
-
     // Receiving Data Of New Expenses
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -108,17 +95,52 @@ public class MainActivity extends AppCompatActivity {
             String expenseData = data.getStringExtra("expenseKey");
             Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
         }
+    }
+    private void updateRecyclerViewData() {
+        // Fetch records from the database
+        try {
 
+        ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
+        ArrayList<String> updatedExpenseDate = new ArrayList<>();
+        ArrayList<String> updatedExpenseAmount = new ArrayList<>();
+        ArrayList<String> updatedExpenseTag = new ArrayList<>();
+
+        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+
+        String[] projection = {"name","amount","date","tag"};
+
+        Cursor cursor = database.query(
+                "transactions",
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            String customName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            String amount = cursor.getString(cursor.getColumnIndexOrThrow("amount"));
+            String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+            String tag = cursor.getString(cursor.getColumnIndexOrThrow("tag"));
+            updatedExpenseCustomName.add(customName);
+            updatedExpenseAmount.add(amount);
+            updatedExpenseDate.add(date);
+            updatedExpenseTag.add(tag);
+        }
+
+        cursor.close();
+        dbHelper.close();
+        customRecyclerView = new CustomRecyclerView(expenseAmount,expenseType,expenseDate,expenseCustomName,getApplicationContext());
+//        customRecyclerView.updateData(updatedExpenseAmount, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName);
+//        customRecyclerView.notifyDataSetChanged();
+        expenseRecyclerView.setAdapter(customRecyclerView);
+        Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
+        }catch (Exception e){
+            Log.e("MainActivity", "updateRecyclerViewData: "+e.toString());
+        }
     }
 
-    // Method To Handle Dashboard Updation
-    private void updateOptions(AutoCompleteTextView autoCompleteTextView){
-        ArrayList<String> options= new ArrayList<>();
-        options.add("Dashboard");
-        options.add("Savings");
-        options.add("Expenses");
-        options.remove(autoCompleteTextView.getText().toString());
-        CustomDropDown customAdapter = new CustomDropDown(this, options);
-        autoCompleteTextView.setAdapter(customAdapter);
-    }
 }
