@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
             Log.d("MainActivity", "FloatingActionButton clicked");
             startActivity(intent);
-            updateRecyclerViewData(getApplicationContext(),expenseRecyclerView);
+            updateRecyclerViewData(getApplicationContext(),expenseRecyclerView,MainActivity.this);
         });
-        updateRecyclerViewData(getApplicationContext(),expenseRecyclerView);
+        updateRecyclerViewData(getApplicationContext(),expenseRecyclerView,MainActivity.this);
     }
     // Receiving Data Of New Expenses
     @Override
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
         }
     }
-    public static void updateRecyclerViewData(Context context, RecyclerView recyclerView) {
+    public static void updateRecyclerViewData(Context context, RecyclerView recyclerView,Activity activity) {
         // Fetch records from the database
         ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
         ArrayList<String> updatedExpenseDate = new ArrayList<>();
@@ -135,6 +135,15 @@ public class MainActivity extends AppCompatActivity {
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(updatedExpenseAmount, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
+        customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(context, ExpensesDetails.class);
+                String customName = customRecyclerView.getCustomNameAtPosition(position);
+                intent.putExtra("customName", customName);
+                activity.startActivity(intent);
+            }
+        });
 
         Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
     }
