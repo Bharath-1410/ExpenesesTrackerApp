@@ -4,6 +4,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
@@ -29,13 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public  static  RecyclerView expenseRecyclerView;
-    CustomRecyclerView customRecyclerView;
-    DBHelper dbHelper;
-    public ArrayList<String> expenseAmount;
-    public ArrayList<String> expenseDate;
-    public ArrayList<String> expenseType;
-    public ArrayList<String> expenseCustomName;
     ArrayList<String> dashboardOptions= new ArrayList<>();
     private final ActivityResultLauncher<Intent> startForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -55,47 +54,82 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbHelper = new DBHelper(getApplicationContext());
-        expenseAmount = new ArrayList<>();
-        expenseType = new ArrayList<>();
-        expenseDate = new ArrayList<>();
-        expenseCustomName = new ArrayList<>();
-
-        // DashBoard Updation
+//        dbHelper = new DBHelper(getApplicationContext());
+//        expenseAmount = new ArrayList<>();
+//        expenseType = new ArrayList<>();
+//        expenseDate = new ArrayList<>();
+//        expenseCustomName = new ArrayList<>();
+//
+//        // DashBoard Updation
         Spinner dashboard = findViewById(R.id.dashBoard);
         dashboardOptions.add("Dashboard");
         dashboardOptions.add("Savings");
         dashboardOptions.add("Expenses");
+
         CustomDropDown dashBoardDropDown = new CustomDropDown(this, dashboardOptions);
         dashBoardDropDown.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dashboard.setAdapter(dashBoardDropDown);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        try {
+            dashboard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItem = dashboardOptions.get(position);
+                    if (selectedItem.equals("Dashboard")) {
+                    fragmentManager.beginTransaction().
+                            replace(R.id.fragmentContainerView,Dashboard.class,null)
+                            .setReorderingAllowed(true)
+                            .addToBackStack("name") // Name can be null
+                            .commit();
+                    updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
+                    } else {
+                    fragmentManager.beginTransaction().
+                            replace(R.id.fragmentContainerView,ExpensesAndIncome.class,null)
+                            .setReorderingAllowed(true)
+                            .addToBackStack("name") // Name can be null
+                            .commit();
 
-        for (int i = 0; i < 20; i++) {
-            expenseType.add ("Type " + (i+1));
-            expenseAmount.add("+"+(i+6.34));
-            expenseDate.add("May 30, 2024");
-            expenseCustomName.add( "CustomName "+(i+1));
+                    }
+                    Log.d("CurrentFragment", "Current Fragment is " + selectedItem);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    Log.d("CurrentFragment", "onNothingSelected: ");
+                }
+            });
+        } catch (Exception e) {
+            Log.e("CurrentFragment", e.toString());
         }
-        expenseRecyclerView = findViewById(R.id.expenseRecyclerView);
-        // Creating New Fragment For Adding New Expenses
+//        // Creating New Fragment For Adding New Expenses
         FloatingActionButton fab = findViewById(R.id.addExpenses);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
             Log.d("MainActivity", "FloatingActionButton clicked");
             startActivity(intent);
-            updateRecyclerViewData(getApplicationContext(),expenseRecyclerView,MainActivity.this);
+            try {
+
+            updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
+                Log.d("updateRecyclerViewData","updated Succesfully");
+            }catch (Exception e){
+                Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
+            }
         });
-        updateRecyclerViewData(getApplicationContext(),expenseRecyclerView,MainActivity.this);
-    }
-    // Receiving Data Of New Expenses
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 464 && resultCode == RESULT_OK && data != null) {
-            String expenseData = data.getStringExtra("expenseKey");
-            Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
+        try {
+            updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
+        }catch (Exception e){
+            Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
         }
     }
+//    // Receiving Data Of New Expenses
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 464 && resultCode == RESULT_OK && data != null) {
+//            String expenseData = data.getStringExtra("expenseKey");
+//            Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
+//        }
+//    }
     public static void updateRecyclerViewData(Context context, RecyclerView recyclerView,Activity activity) {
         // Fetch records from the database
         ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
@@ -146,5 +180,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            updateRecyclerViewData(getApplicationContext(), Dashboard.expenseRecyclerView, this);
+        } catch (Exception e) {
+            Log.e("updateRecyclerViewData", "updateRecyclerViewData : " + e.toString());
+        }
     }
 }
