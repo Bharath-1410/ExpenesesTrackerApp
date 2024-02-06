@@ -36,6 +36,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> dashboardOptions= new ArrayList<>();
+    View myView;
+//    RecyclerView expenseRecyclerView;
     private final ActivityResultLauncher<Intent> startForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
@@ -54,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        dbHelper = new DBHelper(getApplicationContext());
-//        expenseAmount = new ArrayList<>();
-//        expenseType = new ArrayList<>();
-//        expenseDate = new ArrayList<>();
-//        expenseCustomName = new ArrayList<>();
-//
 //        // DashBoard Updation
         Spinner dashboard = findViewById(R.id.dashBoard);
         dashboardOptions.add("Dashboard");
@@ -69,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
         CustomDropDown dashBoardDropDown = new CustomDropDown(this, dashboardOptions);
         dashBoardDropDown.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dashboard.setAdapter(dashBoardDropDown);
+        myView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_dashboard,null);
+//        expenseRecyclerView = myView.findViewById(R.id.expenseRecyclerView);
+        try {
+           updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
+           Log.d("updateRecyclerViewData","updated Successfully");
+        }catch (Exception e){
+            Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         try {
             dashboard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -88,11 +92,9 @@ public class MainActivity extends AppCompatActivity {
                             .setReorderingAllowed(true)
                             .addToBackStack("name") // Name can be null
                             .commit();
-
                     }
                     Log.d("CurrentFragment", "Current Fragment is " + selectedItem);
                 }
-
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
                     Log.d("CurrentFragment", "onNothingSelected: ");
@@ -103,33 +105,27 @@ public class MainActivity extends AppCompatActivity {
         }
 //        // Creating New Fragment For Adding New Expenses
         FloatingActionButton fab = findViewById(R.id.addExpenses);
-        fab.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
-            Log.d("MainActivity", "FloatingActionButton clicked");
-            startActivity(intent);
+            fab.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
+                Log.d("MainActivity", "FloatingActionButton clicked");
+                startActivity(intent);
             try {
-
-            updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
-                Log.d("updateRecyclerViewData","updated Succesfully");
+                updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
+                Log.d("updateRecyclerViewData","updateRecyclerViewData : Successfully fetched and Updated in the ExpenseRecyclerView");
             }catch (Exception e){
                 Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
             }
         });
-        try {
-            updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
-        }catch (Exception e){
-            Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
+    }
+//     Receiving Data Of New Expenses
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 464 && resultCode == RESULT_OK && data != null) {
+            String expenseData = data.getStringExtra("expenseKey");
+            Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
         }
     }
-//    // Receiving Data Of New Expenses
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 464 && resultCode == RESULT_OK && data != null) {
-//            String expenseData = data.getStringExtra("expenseKey");
-//            Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
-//        }
-//    }
     public static void updateRecyclerViewData(Context context, RecyclerView recyclerView,Activity activity) {
         // Fetch records from the database
         ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
@@ -178,16 +174,15 @@ public class MainActivity extends AppCompatActivity {
                 activity.startActivity(intent);
             }
         });
-
         Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        try {
-            updateRecyclerViewData(getApplicationContext(), Dashboard.expenseRecyclerView, this);
-        } catch (Exception e) {
-            Log.e("updateRecyclerViewData", "updateRecyclerViewData : " + e.toString());
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        try {
+//            updateRecyclerViewData(getApplicationContext(), Dashboard.expenseRecyclerView, this);
+//        } catch (Exception e) {
+//            Log.e("updateRecyclerViewData", "updateRecyclerViewData : " + e.toString());
+//        }
+//    }
 }
