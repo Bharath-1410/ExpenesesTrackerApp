@@ -37,7 +37,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> dashboardOptions= new ArrayList<>();
     View myView;
-//    RecyclerView expenseRecyclerView;
+    RecyclerView expenseRecyclerView;
     private final ActivityResultLauncher<Intent> startForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
@@ -65,14 +65,6 @@ public class MainActivity extends AppCompatActivity {
         CustomDropDown dashBoardDropDown = new CustomDropDown(this, dashboardOptions);
         dashBoardDropDown.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dashboard.setAdapter(dashBoardDropDown);
-        myView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_dashboard,null);
-//        expenseRecyclerView = myView.findViewById(R.id.expenseRecyclerView);
-        try {
-           updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
-           Log.d("updateRecyclerViewData","updated Successfully");
-        }catch (Exception e){
-            Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
-        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         try {
             dashboard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -80,18 +72,17 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedItem = dashboardOptions.get(position);
                     if (selectedItem.equals("Dashboard")) {
-                    fragmentManager.beginTransaction().
-                            replace(R.id.fragmentContainerView,Dashboard.class,null)
-                            .setReorderingAllowed(true)
-                            .addToBackStack("name") // Name can be null
-                            .commit();
-                    updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
+                        fragmentManager.beginTransaction().
+                                replace(R.id.fragmentContainerView,Dashboard.class,null)
+                                .setReorderingAllowed(true)
+                                .addToBackStack("name") // Name can be null
+                                .commit();
                     } else {
-                    fragmentManager.beginTransaction().
-                            replace(R.id.fragmentContainerView,ExpensesAndIncome.class,null)
-                            .setReorderingAllowed(true)
-                            .addToBackStack("name") // Name can be null
-                            .commit();
+                        fragmentManager.beginTransaction().
+                                replace(R.id.fragmentContainerView,ExpensesAndIncome.class,null)
+                                .setReorderingAllowed(true)
+                                .addToBackStack("name") // Name can be null
+                                .commit();
                     }
                     Log.d("CurrentFragment", "Current Fragment is " + selectedItem);
                 }
@@ -110,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "FloatingActionButton clicked");
                 startActivity(intent);
             try {
-                updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
+                Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
                 Log.d("updateRecyclerViewData","updateRecyclerViewData : Successfully fetched and Updated in the ExpenseRecyclerView");
             }catch (Exception e){
                 Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
@@ -126,63 +117,4 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
         }
     }
-    public static void updateRecyclerViewData(Context context, RecyclerView recyclerView,Activity activity) {
-        // Fetch records from the database
-        ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
-        ArrayList<String> updatedExpenseDate = new ArrayList<>();
-        ArrayList<String> updatedExpenseAmount = new ArrayList<>();
-        ArrayList<String> updatedExpenseTag = new ArrayList<>();
-
-        DBHelper dbHelper = new DBHelper(context);
-        SQLiteDatabase database = dbHelper.getReadableDatabase();
-
-        String[] projection = {"name","amount","date","tag"};
-
-        Cursor cursor = database.query(
-                "transactions",
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        while (cursor.moveToNext()) {
-            String customName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            String amount = cursor.getString(cursor.getColumnIndexOrThrow("amount"));
-            String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-            String tag = cursor.getString(cursor.getColumnIndexOrThrow("tag"));
-            updatedExpenseCustomName.add(customName);
-            updatedExpenseAmount.add(amount);
-            updatedExpenseDate.add(date);
-            updatedExpenseTag.add(tag);
-        }
-
-        cursor.close();
-        dbHelper.close();
-
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(updatedExpenseAmount, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(customRecyclerView);
-        customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(context, ExpensesDetails.class);
-                String customName = customRecyclerView.getCustomNameAtPosition(position);
-                intent.putExtra("customName", customName);
-                activity.startActivity(intent);
-            }
-        });
-        Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
-    }
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        try {
-//            updateRecyclerViewData(getApplicationContext(), Dashboard.expenseRecyclerView, this);
-//        } catch (Exception e) {
-//            Log.e("updateRecyclerViewData", "updateRecyclerViewData : " + e.toString());
-//        }
-//    }
 }

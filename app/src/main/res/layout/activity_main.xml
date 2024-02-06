@@ -38,12 +38,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/charcoal"
             android:backgroundTint="@color/charcoal"
-            android:fillViewport="true">
+            android:fadeScrollbars="true"
+            android:fillViewport="true"
+            android:scrollX="0dp"
+            android:scrollY="0dp"
+            android:scrollbarSize="0dp"
+            android:scrollbars="none">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -62,7 +67,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.5" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
     </LinearLayout>
 

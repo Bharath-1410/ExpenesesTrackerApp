@@ -90,7 +90,7 @@ public class AddCustomExpenses extends Activity {
                     newRowId = dbHelper.addTransaction(new Transaction(customName,amount,type,tag,date,note));
 //                    View mainActivity = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_main,null);
 //                    expenseRecyclerView = mainActivity.findViewById(R.id.expenseRecyclerView);
-                    MainActivity.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,AddCustomExpenses.this);
+                    Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,AddCustomExpenses.this);
                 }catch (Exception e){
                     Log.d("DBHelper", e.toString());
                 }
@@ -118,4 +118,5 @@ public class AddCustomExpenses extends Activity {
         }
         snackbar.show();
     }
+
 }

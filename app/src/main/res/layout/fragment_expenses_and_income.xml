@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/layoutTitle"
-            android:layout_width="140dp"
+            android:layout_width="240dp"
             android:layout_height="40dp"
             android:layout_marginTop="44dp"
             android:background="@color/subBackGround"
@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/titleAmount"
-            android:layout_width="140dp"
+            android:layout_width="240dp"
             android:layout_height="73dp"
             android:background="@color/subBackGround"
             android:backgroundTint="@color/subBackGround"
@@ -45,35 +45,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutTitle" />
 
-        <TextView
-            android:id="@+id/recentTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="Recent Expenses"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.118"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleAmount" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/expensesAndIncomeRecyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="164dp"
-            android:background="@color/blue"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recentTitle"
-            app:layout_constraintVertical_bias="0.788">
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/titleAmount">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/recentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="60dp"
+                android:text="Recent Expenses"
+                android:textColor="@color/white" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/expensesAndIncomeRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="164dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

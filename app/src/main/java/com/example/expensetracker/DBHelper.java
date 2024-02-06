@@ -56,12 +56,42 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DBHelper", "addTransaction: {" + transaction.getName() + transaction.getAmount() + transaction.getType() + transaction.getTag() + transaction.getNote() + transaction.getDate() + "}" );
         return newid;
     }
-    public void getFullData() {
-        ArrayList<String> dataList = new ArrayList<>();
 
-        SQLiteDatabase db = this.getReadableDatabase();
+    public static ArrayList<ArrayList<String>> fetchData(Context context,String [] projection,String selection,String [] selectionArgs) {
+        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
 
-        String[] projection = {"name","amount","type","tag","date","note"};
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                "transactions",
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            ArrayList<String> rowData = new ArrayList<>();
+            for (String column : projection) {
+                rowData.add(cursor.getString(cursor.getColumnIndexOrThrow(column)));
+            }
+            dataList.add(rowData);
+        }
+
+        cursor.close();
+        db.close();
+
+        return dataList;
+    }
+
+    public static ArrayList<ArrayList<String>> fetchData(Context context, String[] projection) {
+        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(
                 "transactions",
@@ -74,23 +104,19 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
         while (cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            String amount = cursor.getString(cursor.getColumnIndexOrThrow("amount"));
-            String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
-            String tag = cursor.getString(cursor.getColumnIndexOrThrow("tag"));
-            String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-            String note = cursor.getString(cursor.getColumnIndexOrThrow("note"));
-            expenseCustomName.add(name);
-            expenseNote.add(note);
-            expenseDate.add(date);
-            expenseAmount.add(amount);
-            expenseType.add(type);
-            expenseTag.add(tag);
+            ArrayList<String> rowData = new ArrayList<>();
+            for (String column : projection) {
+                rowData.add(cursor.getString(cursor.getColumnIndexOrThrow(column)));
+            }
+            dataList.add(rowData);
         }
 
         cursor.close();
         db.close();
+
+        return dataList;
     }
+
 
     public void setExpenseAmount(ArrayList<String> expenseAmount) {
         this.expenseAmount = expenseAmount;

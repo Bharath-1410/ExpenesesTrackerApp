@@ -1,9 +1,15 @@
 package com.example.expensetracker;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -70,6 +76,49 @@ public class Dashboard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         expenseRecyclerView =  view.findViewById(R.id.expenseRecyclerView);
+        try {
+            updateRecyclerViewData(getContext(),expenseRecyclerView,getActivity());
+            Log.d("Dashboard", "Dashboard is updated Successfully");
+        }catch (Exception e){
+            Log.e("Dashboard", e.toString());
+        }
         return view;
+    }
+    public static void updateRecyclerViewData(Context context, RecyclerView recyclerView, Activity activity) {
+        String[] projection = {"name", "amount", "type", "tag", "date", "note"};
+        String selection = "type=?";
+        String[] selectionArgs = {"Income"};
+
+        ArrayList<ArrayList<String>> incomeData = DBHelper.fetchData(context, projection, selection, selectionArgs);
+        ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
+        ArrayList<String> updatedExpenseAmount = new ArrayList<>();
+        ArrayList<String> updatedExpenseType = new ArrayList<>();
+        ArrayList<String> updatedExpenseTag = new ArrayList<>();
+        ArrayList<String> updatedExpenseDate = new ArrayList<>();
+        ArrayList<String> updatedExpenseNote = new ArrayList<>();
+
+        // Separating the dataList
+        for (ArrayList<String> row : incomeData) {
+            updatedExpenseCustomName.add(row.get(0));
+            updatedExpenseAmount.add(row.get(1));
+            updatedExpenseType.add(row.get(2));
+            updatedExpenseTag.add(row.get(3));
+            updatedExpenseDate.add(row.get(4));
+            updatedExpenseNote.add(row.get(5));
+        }
+
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(updatedExpenseAmount, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(customRecyclerView);
+        customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(context, ExpensesDetails.class);
+                String customName = customRecyclerView.getCustomNameAtPosition(position);
+                intent.putExtra("customName", customName);
+                activity.startActivity(intent);
+            }
+        });
+        Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
     }
 }
