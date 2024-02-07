@@ -3,7 +3,6 @@ package com.example.expensetracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +22,11 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ExpensesAndIncome#newInstance} factory method to
+ * Use the {@link Savings#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExpensesAndIncome extends Fragment {
-    View rootView ;
-    static ImageView img;
-    RecyclerView expensesAndIncomeRecyclerView;
-
+public class Savings extends Fragment {
+    RecyclerView savingsRecyclerView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,7 +36,7 @@ public class ExpensesAndIncome extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ExpensesAndIncome() {
+    public Savings() {
         // Required empty public constructor
     }
 
@@ -51,11 +46,11 @@ public class ExpensesAndIncome extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment expenses_and_income.
+     * @return A new instance of fragment Savings.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExpensesAndIncome newInstance(String param1, String param2) {
-        ExpensesAndIncome fragment = new ExpensesAndIncome();
+    public static Savings newInstance(String param1, String param2) {
+        Savings fragment = new Savings();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,32 +70,12 @@ public class ExpensesAndIncome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View customRecycler = LayoutInflater.from(getContext()).inflate(R.layout.expenses_recycler_view,null);
-        img = customRecycler.findViewById(R.id.expenseImageType);
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_expenses_and_income, container, false);
-        expensesAndIncomeRecyclerView = rootView.findViewById(R.id.expensesAndIncomeRecyclerView);
-        try {
-            updateRecyclerViewExpensesAndIncome(getContext(),expensesAndIncomeRecyclerView,getActivity());
-            Log.d("ExpensesAndIncome", " updateRecyclerViewExpensesAndIncome was Successfully");
-        }catch (Exception e){
-            Log.e("ExpensesAndIncome",e.toString() );
-        }
-//        img.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_animation);
-//                img.startAnimation(rotateAnimation);
-//
-//                // Change drawable state
-//                img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.selector_icon));
-//
-//                return true;
-//            }
-//        });
+        View rootView = inflater.inflate(R.layout.fragment_savings, container, false);
+        savingsRecyclerView = rootView.findViewById(R.id.SavingsRecyclerView);
+        updateRecyclerViewSavings(getContext(),savingsRecyclerView,getActivity());
         return rootView;
     }
-    public static void updateRecyclerViewExpensesAndIncome(Context context, RecyclerView recyclerView, Activity activity) {
+    public static void updateRecyclerViewSavings(Context context, RecyclerView recyclerView, Activity activity) {
 //        DBHelper dbHelper = new DBHelper();
         String[] projection = {"name", "amount", "type", "tag", "date", "note"};
         String selection = "type=?";
@@ -123,10 +98,10 @@ public class ExpensesAndIncome extends Fragment {
             updatedExpenseTag.add(row.get(3));
             updatedExpenseDate.add(row.get(4));
             updatedExpenseNote.add(row.get(5));
-            images.add(img);
+            images.add(Expenses.img);
         }
 
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseType,updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {

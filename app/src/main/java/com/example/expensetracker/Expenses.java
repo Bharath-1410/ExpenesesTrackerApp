@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,11 +22,14 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Dashboard#newInstance} factory method to
+ * Use the {@link Expenses#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Dashboard extends Fragment {
-    View view;
+public class Expenses extends Fragment {
+    View rootView ;
+    static ImageView img;
+    RecyclerView expensesAndIncomeRecyclerView;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,15 +38,8 @@ public class Dashboard extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    public  static RecyclerView expenseRecyclerView;
-    CustomRecyclerView customRecyclerView;
-    DBHelper dbHelper;
-    FragmentContainerView fragmentContainerView;
-    public ArrayList<String> expenseAmount;
-    public ArrayList<String> expenseDate;
-    public ArrayList<String> expenseType;
-    public ArrayList<String> expenseCustomName;
-    public Dashboard() {
+
+    public Expenses() {
         // Required empty public constructor
     }
 
@@ -54,11 +49,11 @@ public class Dashboard extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment dashboard.
+     * @return A new instance of fragment expenses_and_income.
      */
     // TODO: Rename and change types and number of parameters
-    public static Dashboard newInstance(String param1, String param2) {
-        Dashboard fragment = new Dashboard();
+    public static Expenses newInstance(String param1, String param2) {
+        Expenses fragment = new Expenses();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,25 +69,42 @@ public class Dashboard extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        expenseRecyclerView =  view.findViewById(R.id.expenseRecyclerView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View customRecycler = LayoutInflater.from(getContext()).inflate(R.layout.expenses_recycler_view,null);
+        img = customRecycler.findViewById(R.id.expenseImageType);
+        // Inflate the layout for this fragment
+        rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
+        expensesAndIncomeRecyclerView = rootView.findViewById(R.id.expensesAndIncomeRecyclerView);
         try {
-            updateRecyclerViewData(getContext(),expenseRecyclerView,getActivity());
-            Log.d("Dashboard", "Dashboard is updated Successfully");
+            updateRecyclerViewExpenses(getContext(),expensesAndIncomeRecyclerView,getActivity());
+            Log.d("ExpensesAndIncome", " updateRecyclerViewExpensesAndIncome was Successfully");
         }catch (Exception e){
-            Log.e("Dashboard", e.toString());
+            Log.e("ExpensesAndIncome",e.toString() );
         }
-
-        return view;
+//        img.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_animation);
+//                img.startAnimation(rotateAnimation);
+//
+//                // Change drawable state
+//                img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.selector_icon));
+//
+//                return true;
+//            }
+//        });
+        return rootView;
     }
-    public static void updateRecyclerViewData(Context context, RecyclerView recyclerView, Activity activity) {
+    public static void updateRecyclerViewExpenses(Context context, RecyclerView recyclerView, Activity activity) {
+//        DBHelper dbHelper = new DBHelper();
         String[] projection = {"name", "amount", "type", "tag", "date", "note"};
-//        String selection = "type=?";
-//        String[] selectionArgs = {"Income"};
+        String selection = "type=?";
+        String[] selectionArgs = {"Expense"};
 
-        ArrayList<ArrayList<String>> incomeData = DBHelper.fetchData(context, projection);
+        ArrayList<ArrayList<String>> incomeData = DBHelper.fetchData(context, projection, selection, selectionArgs);
         ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
         ArrayList<String> updatedExpenseAmount = new ArrayList<>();
         ArrayList<String> updatedExpenseType = new ArrayList<>();
@@ -100,7 +112,8 @@ public class Dashboard extends Fragment {
         ArrayList<String> updatedExpenseDate = new ArrayList<>();
         ArrayList<String> updatedExpenseNote = new ArrayList<>();
         ArrayList<ImageView> images = new ArrayList<>();
-        // Separating the dataList
+
+        // Extract data from incomeData and populate corresponding ArrayLists
         for (ArrayList<String> row : incomeData) {
             updatedExpenseCustomName.add(row.get(0));
             updatedExpenseAmount.add(row.get(1));
@@ -108,14 +121,16 @@ public class Dashboard extends Fragment {
             updatedExpenseTag.add(row.get(3));
             updatedExpenseDate.add(row.get(4));
             updatedExpenseNote.add(row.get(5));
-            images.add(Expenses.img);
+            images.add(img);
         }
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
+
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseType,updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                // Handle item click
                 Intent intent = new Intent(context, ExpensesDetails.class);
                 String customName = customRecyclerView.getCustomNameAtPosition(position);
                 intent.putExtra("customName", customName);
@@ -124,19 +139,15 @@ public class Dashboard extends Fragment {
 
             @Override
             public void onItemLongClick(int position) {
+                // Handle item long click
                 Animation rotateAnimation = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.rotate_animation);
-                // Get the ViewHolder associated with the long-clicked item
-                RecyclerView.ViewHolder viewHolder = expenseRecyclerView.findViewHolderForAdapterPosition(position);
-                if (viewHolder instanceof CustomRecyclerView.ViewHolder) {
-                    CustomRecyclerView.ViewHolder customViewHolder = (CustomRecyclerView.ViewHolder) viewHolder;
-                    ImageView img = customViewHolder.image;
-                    img.startAnimation(rotateAnimation);
-                    img.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.selector_icon));
-                }
+                ImageView image = customRecyclerView.getItemImageViewAtPosition(position);
+                image.startAnimation(rotateAnimation);
+                image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.selector_icon));
+                Log.d("ExpensesAndIncome", "onItemLongClick: Clicked Successfully");
             }
-
         });
-        Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
-    }
 
+        Log.d("ExpensesAndIncome", "updateRecyclerViewExpensesAndIncome: CustomRecyclerView is Getting updated");
+    }
 }

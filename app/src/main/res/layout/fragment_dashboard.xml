@@ -28,7 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:paddingTop="15dp"
                 android:text="Total Amount"
@@ -88,8 +87,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="62dp"
                     android:gravity="center"
-                    android:text="15000"
-                    android:textColor="#FFFFFF"
+                    android:text="+15000"
+                    android:textColor="@color/saving"
                     android:textSize="24sp"
                     android:textStyle="normal|bold"
                     app:layout_constraintWidth_percent="0.5" />
@@ -118,8 +117,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="15000"
-                    android:textColor="#FFFFFF"
+                    android:text="-1000"
+                    android:textColor="@color/expense"
                     android:textSize="24sp"
                     android:textStyle="normal|bold" />
 
