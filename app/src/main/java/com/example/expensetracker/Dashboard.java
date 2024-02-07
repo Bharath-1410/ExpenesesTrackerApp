@@ -3,10 +3,10 @@ package com.example.expensetracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -82,6 +85,7 @@ public class Dashboard extends Fragment {
         }catch (Exception e){
             Log.e("Dashboard", e.toString());
         }
+
         return view;
     }
     public static void updateRecyclerViewData(Context context, RecyclerView recyclerView, Activity activity) {
@@ -96,7 +100,7 @@ public class Dashboard extends Fragment {
         ArrayList<String> updatedExpenseTag = new ArrayList<>();
         ArrayList<String> updatedExpenseDate = new ArrayList<>();
         ArrayList<String> updatedExpenseNote = new ArrayList<>();
-
+        ArrayList<ImageView> images = new ArrayList<>();
         // Separating the dataList
         for (ArrayList<String> row : incomeData) {
             updatedExpenseCustomName.add(row.get(0));
@@ -105,9 +109,9 @@ public class Dashboard extends Fragment {
             updatedExpenseTag.add(row.get(3));
             updatedExpenseDate.add(row.get(4));
             updatedExpenseNote.add(row.get(5));
+            images.add(ExpensesAndIncome.img);
         }
-
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(updatedExpenseAmount, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
@@ -118,7 +122,22 @@ public class Dashboard extends Fragment {
                 intent.putExtra("customName", customName);
                 activity.startActivity(intent);
             }
+
+            @Override
+            public void onItemLongClick(int position) {
+                Animation rotateAnimation = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.rotate_animation);
+                // Get the ViewHolder associated with the long-clicked item
+                RecyclerView.ViewHolder viewHolder = expenseRecyclerView.findViewHolderForAdapterPosition(position);
+                if (viewHolder instanceof CustomRecyclerView.ViewHolder) {
+                    CustomRecyclerView.ViewHolder customViewHolder = (CustomRecyclerView.ViewHolder) viewHolder;
+                    ImageView img = customViewHolder.image;
+                    img.startAnimation(rotateAnimation);
+                    img.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.selector_icon));
+                }
+            }
+
         });
         Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
     }
+
 }
