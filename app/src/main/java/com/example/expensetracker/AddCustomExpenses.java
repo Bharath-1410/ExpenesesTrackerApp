@@ -1,5 +1,7 @@
 package com.example.expensetracker;
 
+import static java.security.AccessController.getContext;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -91,6 +93,8 @@ public class AddCustomExpenses extends Activity {
 //                    View mainActivity = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_main,null);
 //                    expenseRecyclerView = mainActivity.findViewById(R.id.expenseRecyclerView);
                     Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,AddCustomExpenses.this);
+                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),Expenses.expenseRecyclerView,AddCustomExpenses.this);
+                    Savings.updateRecyclerViewSavings(getApplicationContext(),Savings.savingsRecyclerView,AddCustomExpenses.this);
                 }catch (Exception e){
                     Log.d("DBHelper", e.toString());
                 }
@@ -105,6 +109,16 @@ public class AddCustomExpenses extends Activity {
                 newAmount.setText("");
                 newDate.setText("");
                 newNote.setText("");
+//                try {
+////                    View customExpenses = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_expenses,null);
+////                    View customSavings = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_savings,null);
+////                    RecyclerView expenseRecyclerView = customExpenses.findViewById(R.id.expensesAndIncomeRecyclerView);
+////                    RecyclerView savingRecyclerView = customSavings.findViewById(R.id.SavingsRecyclerView);
+////                    Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,AddCustomExpenses.this);
+//                    Log.d("updateRecyclerViewData","updateRecyclerViewData : Successfully fetched and Updated in the ExpenseRecyclerView");
+//                }catch (Exception e){
+//                    Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
+//                }
             }
         });
     }

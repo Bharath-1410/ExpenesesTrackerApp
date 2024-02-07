@@ -93,12 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
                 Log.d("MainActivity", "FloatingActionButton clicked");
                 startActivity(intent);
-            try {
-                Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,MainActivity.this);
-                Log.d("updateRecyclerViewData","updateRecyclerViewData : Successfully fetched and Updated in the ExpenseRecyclerView");
-            }catch (Exception e){
-                Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
-            }
         });
     }
 //     Receiving Data Of New Expenses

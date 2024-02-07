@@ -70,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 selectionArgs,
                 null,
                 null,
-                null
+                "sno DESC"
         );
 
         while (cursor.moveToNext()) {
@@ -80,7 +80,6 @@ public class DBHelper extends SQLiteOpenHelper {
             }
             dataList.add(rowData);
         }
-
         cursor.close();
         db.close();
 
@@ -88,35 +87,32 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public static ArrayList<ArrayList<String>> fetchData(Context context, String[] projection) {
-        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
-
-        DBHelper dbHelper = new DBHelper(context);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        Cursor cursor = db.query(
-                "transactions",
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        while (cursor.moveToNext()) {
-            ArrayList<String> rowData = new ArrayList<>();
-            for (String column : projection) {
-                rowData.add(cursor.getString(cursor.getColumnIndexOrThrow(column)));
-            }
-            dataList.add(rowData);
-        }
-
-        cursor.close();
-        db.close();
-
-        return dataList;
+        return fetchData(context.getApplicationContext(), projection,null,null);
     }
-
+    public static int getTotalExpenses(SQLiteDatabase db) {
+        Cursor cursor = null;
+        int totalExpense = 0;
+        try {
+            String[] projection = {"SUM(amount)"};
+            cursor = db.query(
+                    "transactions",
+                    projection,
+                    "type = ?",
+                    new String[]{"expense"},
+                    null,
+                    null,
+                    null
+            );
+            if (cursor != null && cursor.moveToFirst()) {
+                totalExpense = cursor.getInt(0);
+            }
+        } finally{
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return totalExpense;
+    }
 
     public void setExpenseAmount(ArrayList<String> expenseAmount) {
         this.expenseAmount = expenseAmount;
