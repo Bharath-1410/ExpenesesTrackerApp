@@ -98,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "transactions",
                     projection,
                     "type = ?",
-                    new String[]{"Expense"},
+                    new String[]{"expense"},
                     null,
                     null,
                     null
@@ -114,30 +114,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return totalExpense;
     }
 
-    public static int getTotalIncome(SQLiteDatabase db) {
-        Cursor cursor = null;
-        int totalExpense = 0;
-        try {
-            String[] projection = {"SUM(amount)"};
-            cursor = db.query(
-                    "transactions",
-                    projection,
-                    "type = ?",
-                    new String[]{"Income"},
-                    null,
-                    null,
-                    null
-            );
-            if (cursor != null && cursor.moveToFirst()) {
-                totalExpense = cursor.getInt(0);
-            }
-        } finally{
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return totalExpense;
-    }
     public void setExpenseAmount(ArrayList<String> expenseAmount) {
         this.expenseAmount = expenseAmount;
     }

@@ -109,7 +109,6 @@ public class Dashboard extends Fragment {
             updatedExpenseNote.add(row.get(5));
             images.add(Expenses.img);
         }
-        Log.d("Dashboard", "updateRecyclerViewData: "+updatedExpenseAmount.get(0));
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);

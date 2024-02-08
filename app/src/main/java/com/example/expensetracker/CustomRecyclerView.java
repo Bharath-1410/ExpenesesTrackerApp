@@ -71,12 +71,14 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         onItemClickListener.onItemClick(position);
+                        toggleItemSelected(position); // Toggle selected state
+                        itemView.setSelected(isItemSelected(position)); // Update selected state in UI
                     }
                 }
             });
         }
 
-        public void bindData(String name, String amount,String type , String tag, String date, boolean isSelected) {
+        public void bindData(String name, String amount,String type , String tag, String date) {
             this.name.setText(name);
             if (type.equals("Income")){
                 this.amount.setText("+"+amount);
@@ -87,7 +89,6 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
             }
             this.tag.setText(tag);
             this.date.setText(date);
-            itemView.setSelected(isSelected);
         }
     }
 
@@ -114,6 +115,7 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
         String date = expenseDate.get(position);
         String type = expenseType.get(position);
         String tag = expenseTag.get(position);
+        holder.bindData(name, amount, type,tag, date);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -151,5 +153,15 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
             return images.get(position);
         }
         return null;
+    }
+
+    public static void toggleItemSelected(int position) {
+        itemSelectedStates.set(position, !itemSelectedStates.get(position));
+        Log.d("CustomRecyclerView", "toggleItemSelected: Working");
+        System.out.println("maya");
+    }
+
+    public static boolean isItemSelected(int position) {
+        return itemSelectedStates.get(position);
     }
 }

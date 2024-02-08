@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Savings extends Fragment {
-    public  static View view;
+    View view;
     public  static RecyclerView savingsRecyclerView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
