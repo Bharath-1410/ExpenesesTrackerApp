@@ -26,8 +26,8 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Expenses extends Fragment {
-    View view ;
-    static ImageView img;
+    public static  View view ;
+    public static ImageView img;
     public  static RecyclerView expenseRecyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -82,18 +82,6 @@ public class Expenses extends Fragment {
         }
         return view;
     }
-//        img.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_animation);
-//                img.startAnimation(rotateAnimation);
-//
-//                // Change drawable state
-//                img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.selector_icon));
-//
-//                return true;
-//            }
-//        });
     public static void updateRecyclerViewExpenses(Context context, RecyclerView recyclerView, Activity activity) {
 //        DBHelper dbHelper = new DBHelper();
         String[] projection = {"name", "amount", "type", "tag", "date", "note"};

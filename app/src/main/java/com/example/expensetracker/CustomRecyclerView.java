@@ -71,8 +71,6 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         onItemClickListener.onItemClick(position);
-                        toggleItemSelected(position); // Toggle selected state
-                        itemView.setSelected(isItemSelected(position)); // Update selected state in UI
                     }
                 }
             });
@@ -116,19 +114,11 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
         String date = expenseDate.get(position);
         String type = expenseType.get(position);
         String tag = expenseTag.get(position);
-        boolean isSelected = isItemSelected(position);
-
-        holder.bindData(name, amount, type,tag, date, isSelected);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
         onItemClickListener = listener;
     }
-
-//    public void onItemLongClick(int position) {
-//        toggleItemSelected(position);
-//        notifyDataSetChanged();
-//    }
 
     @Override
     public int getItemCount() {
@@ -161,15 +151,5 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
             return images.get(position);
         }
         return null;
-    }
-
-    public static void toggleItemSelected(int position) {
-        itemSelectedStates.set(position, !itemSelectedStates.get(position));
-        Log.d("CustomRecyclerView", "toggleItemSelected: Working");
-        System.out.println("maya");
-    }
-
-    public static boolean isItemSelected(int position) {
-        return itemSelectedStates.get(position);
     }
 }
