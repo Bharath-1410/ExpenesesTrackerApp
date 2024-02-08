@@ -1,7 +1,9 @@
 package com.example.expensetracker;
 
 import static java.security.AccessController.getContext;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -49,6 +51,7 @@ public class AddCustomExpenses extends Activity {
         newAmount = findViewById(R.id.newAmount);
         newDate = findViewById(R.id.newDate);
         newNote= findViewById(R.id.newNote);
+        newDate.setText(getCustomFormattedDateTime());
 
         addTransaction = findViewById(R.id.addNewTransaction);
 
@@ -87,6 +90,11 @@ public class AddCustomExpenses extends Activity {
                 String[] items = {customName, String.valueOf(amount), date};
                 String[] itemHints = {"Title", "Amount", "Date"};
                 System.out.println("newrowid");
+                try {
+                    Log.d("date", "currentDate :"+getCustomFormattedDateTime());
+                }catch (Exception e){
+                    Log.e("date",e.toString() );
+                }
                 long newRowId = 0;
                 try{
                     newRowId = dbHelper.addTransaction(new Transaction(customName,amount,type,tag,date,note));
@@ -107,16 +115,6 @@ public class AddCustomExpenses extends Activity {
                 newAmount.setText("");
                 newDate.setText("");
                 newNote.setText("");
-//                try {
-////                    View customExpenses = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_expenses,null);
-////                    View customSavings = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_savings,null);
-////                    RecyclerView expenseRecyclerView = customExpenses.findViewById(R.id.expensesAndIncomeRecyclerView);
-////                    RecyclerView savingRecyclerView = customSavings.findViewById(R.id.SavingsRecyclerView);
-////                    Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,AddCustomExpenses.this);
-//                    Log.d("updateRecyclerViewData","updateRecyclerViewData : Successfully fetched and Updated in the ExpenseRecyclerView");
-//                }catch (Exception e){
-//                    Log.e("updateRecyclerViewData", "updateRecyclerViewData : "+e.toString() );
-//                }
             }
         });
     }
@@ -130,5 +128,9 @@ public class AddCustomExpenses extends Activity {
         }
         snackbar.show();
     }
-
+    public static String getCustomFormattedDateTime() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d , yyyy  h:mm a", Locale.ENGLISH);
+        return currentDateTime.format(formatter);
+    }
 }
