@@ -90,8 +90,6 @@ public class AddCustomExpenses extends Activity {
                 long newRowId = 0;
                 try{
                     newRowId = dbHelper.addTransaction(new Transaction(customName,amount,type,tag,date,note));
-//                    View mainActivity = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_main,null);
-//                    expenseRecyclerView = mainActivity.findViewById(R.id.expenseRecyclerView);
                     Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,AddCustomExpenses.this);
                     Expenses.updateRecyclerViewExpenses(getApplicationContext(),Expenses.expenseRecyclerView,AddCustomExpenses.this);
                     Savings.updateRecyclerViewSavings(getApplicationContext(),Savings.savingsRecyclerView,AddCustomExpenses.this);

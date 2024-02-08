@@ -89,7 +89,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static ArrayList<ArrayList<String>> fetchData(Context context, String[] projection) {
         return fetchData(context.getApplicationContext(), projection,null,null);
     }
-    public static int getTotalExpenses(SQLiteDatabase db) {
+    public static int getTotalExpenses(Context context) {
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = null;
         int totalExpense = 0;
         try {
@@ -98,7 +100,33 @@ public class DBHelper extends SQLiteOpenHelper {
                     "transactions",
                     projection,
                     "type = ?",
-                    new String[]{"expense"},
+                    new String[]{"Expense"},
+                    null,
+                    null,
+                    null
+            );
+            if (cursor != null && cursor.moveToFirst()) {
+                totalExpense = cursor.getInt(0);
+            }
+        } finally{
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return totalExpense;
+    }
+    public static int getTotalIncome(Context context) {
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
+        int totalExpense = 0;
+        try {
+            String[] projection = {"SUM(amount)"};
+            cursor = db.query(
+                    "transactions",
+                    projection,
+                    "type = ?",
+                    new String[]{"Income"},
                     null,
                     null,
                     null

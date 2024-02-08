@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
  */
 public class Savings extends Fragment {
     View view;
+    public  static TextView totalSavings;
     public  static RecyclerView savingsRecyclerView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,6 +74,8 @@ public class Savings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_savings, container, false);
         savingsRecyclerView =  view.findViewById(R.id.SavingsRecyclerView);
+        totalSavings = view.findViewById(R.id.savingsTitleAmount);
+        totalSavings.setText("+"+DBHelper.getTotalIncome(getContext()));
         try {
             updateRecyclerViewSavings(getContext(),savingsRecyclerView,getActivity());
             Log.d("Dashboard", "Dashboard is updated Successfully");
@@ -109,6 +113,7 @@ public class Savings extends Fragment {
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseType,updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
+        totalSavings.setText("+"+DBHelper.getTotalIncome(context));
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {

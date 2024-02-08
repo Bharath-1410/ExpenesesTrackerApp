@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,8 @@ import java.util.ArrayList;
 public class Expenses extends Fragment {
     View view ;
     static ImageView img;
-    public  static RecyclerView expenseRecyclerView;
+    static TextView totalExpense ;
+    static RecyclerView expenseRecyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,6 +76,8 @@ public class Expenses extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_expenses, container, false);
         expenseRecyclerView =  view.findViewById(R.id.expensesAndIncomeRecyclerView);
+        totalExpense  = view.findViewById(R.id.titleAmount);
+        totalExpense.setText("-"+DBHelper.getTotalExpenses(getContext()));
         try {
             updateRecyclerViewExpenses(getContext(),expenseRecyclerView,getActivity());
             Log.d("Dashboard", "Dashboard is updated Successfully");
@@ -82,18 +86,6 @@ public class Expenses extends Fragment {
         }
         return view;
     }
-//        img.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_animation);
-//                img.startAnimation(rotateAnimation);
-//
-//                // Change drawable state
-//                img.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.selector_icon));
-//
-//                return true;
-//            }
-//        });
     public static void updateRecyclerViewExpenses(Context context, RecyclerView recyclerView, Activity activity) {
 //        DBHelper dbHelper = new DBHelper();
         String[] projection = {"name", "amount", "type", "tag", "date", "note"};
@@ -123,6 +115,7 @@ public class Expenses extends Fragment {
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseType,updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
+        totalExpense.setText("-"+DBHelper.getTotalExpenses(context));
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {

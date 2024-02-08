@@ -34,7 +34,7 @@
                 android:textColor="#FFFFFF" />
 
             <TextView
-                android:id="@+id/total_amout"
+                android:id="@+id/totalAmount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/white"
@@ -83,7 +83,7 @@
                     android:textColor="#FFFFFF" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/totalIncome"
                     android:layout_width="match_parent"
                     android:layout_height="62dp"
                     android:gravity="center"
@@ -113,7 +113,7 @@
                     android:textColor="#FFFFFF" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/totalExpenses"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"

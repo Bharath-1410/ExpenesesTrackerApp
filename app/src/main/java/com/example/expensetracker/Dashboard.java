@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  */
 public class Dashboard extends Fragment {
     View view;
+    public static TextView totalExpense,totalAmount,totalSavings;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -78,6 +80,9 @@ public class Dashboard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         expenseRecyclerView =  view.findViewById(R.id.expenseRecyclerView);
+        totalExpense = view.findViewById(R.id.totalExpenses);
+        totalAmount = view.findViewById(R.id.totalAmount);
+        totalSavings = view.findViewById(R.id.totalIncome);
         try {
             updateRecyclerViewData(getContext(),expenseRecyclerView,getActivity());
             Log.d("Dashboard", "Dashboard is updated Successfully");
@@ -88,9 +93,6 @@ public class Dashboard extends Fragment {
     }
     public static void updateRecyclerViewData(Context context, RecyclerView recyclerView, Activity activity) {
         String[] projection = {"name", "amount", "type", "tag", "date", "note"};
-//        String selection = "type=?";
-//        String[] selectionArgs = {"Income"};
-
         ArrayList<ArrayList<String>> incomeData = DBHelper.fetchData(context, projection);
         ArrayList<String> updatedExpenseCustomName = new ArrayList<>();
         ArrayList<String> updatedExpenseAmount = new ArrayList<>();
@@ -112,6 +114,9 @@ public class Dashboard extends Fragment {
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
+        totalAmount.setText(""+(DBHelper.getTotalIncome(context) + DBHelper.getTotalExpenses(context)));
+        totalExpense.setText("-"+DBHelper.getTotalExpenses(context));
+        totalSavings.setText("+"+DBHelper.getTotalIncome(context));
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
