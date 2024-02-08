@@ -110,7 +110,7 @@ public class Savings extends Fragment {
             images.add(Expenses.img);
         }
 
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseType,updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount, updatedExpenseType,updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, updatedExpenseAmount,context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
         totalSavings.setText("+"+DBHelper.getTotalIncome(context));

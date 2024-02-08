@@ -111,7 +111,7 @@ public class Dashboard extends Fragment {
             updatedExpenseNote.add(row.get(5));
             images.add(Expenses.img);
         }
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, context);
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName,updatedExpenseNote,context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
         totalAmount.setText(""+(DBHelper.getTotalIncome(context) + DBHelper.getTotalExpenses(context)));
@@ -122,7 +122,17 @@ public class Dashboard extends Fragment {
             public void onItemClick(int position) {
                 Intent intent = new Intent(context, ExpensesDetails.class);
                 String customName = customRecyclerView.getCustomNameAtPosition(position);
+                String tag = customRecyclerView.getTagAtPosition(position);
+                String date = customRecyclerView.getDateAtPosition(position);
+                String amount = customRecyclerView.getAmountAtPosition(position);
+                String note = customRecyclerView.getNoteAtPosition(position);
+                String type = customRecyclerView.getTypeAtPosition(position);
                 intent.putExtra("customName", customName);
+                intent.putExtra("tag", tag);
+                intent.putExtra("date", date);
+                intent.putExtra("amount", amount);
+                intent.putExtra("note", note);
+                intent.putExtra("type", type);
                 activity.startActivity(intent);
             }
 

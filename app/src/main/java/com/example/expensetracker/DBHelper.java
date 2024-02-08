@@ -82,7 +82,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         db.close();
-
         return dataList;
     }
 
@@ -140,52 +139,5 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         return totalExpense;
-    }
-
-    public void setExpenseAmount(ArrayList<String> expenseAmount) {
-        this.expenseAmount = expenseAmount;
-    }
-
-       public ArrayList<String> getExpenseAmount() {
-        return this.expenseAmount;
-    }
-
-       public ArrayList<String> getExpenseTag() {
-        return this.expenseTag;
-    }
-
-       public ArrayList<String> getExpenseCustomName() {
-        return this.expenseCustomName;
-    }
-
-       public ArrayList<String> getExpenseType() {
-        return this.expenseType;
-    }
-
-    public ArrayList<String> getExpenseDate() {
-        return this.expenseDate;
-    }
-    public ArrayList<String> getExpenseNote() {
-        return this.expenseNote;
-    }
-
-    public void setExpenseDate(ArrayList<String> expenseDate) {
-        this.expenseDate = expenseDate;
-    }
-
-    public void setExpenseType(ArrayList<String> expenseType) {
-        this.expenseType = expenseType;
-    }
-
-    public void setExpenseNote(ArrayList<String> expenseNote) {
-        this.expenseNote = expenseNote;
-    }
-
-    public void setExpenseCustomName(ArrayList<String> expenseCustomName) {
-        this.expenseCustomName = expenseCustomName;
-    }
-
-    public void setExpenseTag(ArrayList<String> expenseTag) {
-        this.expenseTag = expenseTag;
     }
 }

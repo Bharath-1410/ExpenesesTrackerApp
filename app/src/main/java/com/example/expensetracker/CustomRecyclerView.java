@@ -22,16 +22,18 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
     private ArrayList<String> expenseDate;
     private ArrayList<String> expenseTag;
     private ArrayList<String> expenseType;
+    private ArrayList<String> expenseNote;
     private ArrayList<String> expenseCustomName;
     private static OnItemClickListener onItemClickListener;
 
-    public CustomRecyclerView(ArrayList<ImageView> images, ArrayList<String> expenseAmount, ArrayList<String> expenseType, ArrayList<String> expenseTag,ArrayList<String> expenseDate, ArrayList<String> expenseCustomName, Context context){
+    public CustomRecyclerView(ArrayList<ImageView> images, ArrayList<String> expenseAmount, ArrayList<String> expenseType, ArrayList<String> expenseTag,ArrayList<String> expenseDate, ArrayList<String> expenseCustomName, ArrayList<String> expenseNote,Context context){
         this.images = images;
         this.expenseAmount = expenseAmount;
         this.expenseType = expenseType;
         this.expenseTag = expenseTag;
         this.expenseCustomName = expenseCustomName;
         this.expenseDate = expenseDate;
+        this.expenseNote = expenseNote;
         this.itemSelectedStates = new ArrayList<>(Collections.nCopies(images.size(), false)); // Initialize all items as not selected
     }
 
@@ -54,6 +56,7 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
             tag = itemView.findViewById(R.id.expenseTag);
             date = itemView.findViewById(R.id.expenseDate);
             amount = itemView.findViewById(R.id.expenseAmount);
+//            note = itemView.findViewById(R.id.expenseAmount);
 
             itemView.setOnLongClickListener(v -> {
                 if (onItemClickListener != null) {
@@ -71,7 +74,6 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         onItemClickListener.onItemClick(position);
-                        toggleItemSelected(position); // Toggle selected state
                         itemView.setSelected(isItemSelected(position)); // Update selected state in UI
                     }
                 }
@@ -135,32 +137,42 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
     }
 
     public String getDateAtPosition(int position) {
-        if (position >= 0 && position < expenseCustomName.size()) {
-            return expenseCustomName.get(position);
+        if (position >= 0 && position < expenseDate.size()) {
+            return expenseDate.get(position);
+        }
+        return null;
+    }
+    public String getTagAtPosition(int position) {
+        if (position >= 0 && position < expenseTag.size()) {
+            return expenseTag.get(position);
         }
         return null;
     }
 
-    public String getAtPosition(int position) {
-        if (position >= 0 && position < expenseCustomName.size()) {
-            return expenseCustomName.get(position);
+    public String getAmountAtPosition(int position) {
+        if (position >= 0 && position < expenseAmount.size()) {
+            return expenseAmount.get(position);
         }
         return null;
     }
-
+    public String getNoteAtPosition(int position) {
+        if (position >= 0 && position < expenseNote.size()) {
+            return expenseNote.get(position);
+        }
+        return null;
+    }
+    public String getTypeAtPosition(int position) {
+        if (position >= 0 && position < expenseType.size()) {
+            return expenseType.get(position);
+        }
+        return null;
+    }
     public ImageView getItemImageViewAtPosition(int position) {
-        if (position >= 0 && position < expenseCustomName.size()) {
+        if (position >= 0 && position < images.size()) {
             return images.get(position);
         }
         return null;
     }
-
-    public static void toggleItemSelected(int position) {
-        itemSelectedStates.set(position, !itemSelectedStates.get(position));
-        Log.d("CustomRecyclerView", "toggleItemSelected: Working");
-        System.out.println("maya");
-    }
-
     public static boolean isItemSelected(int position) {
         return itemSelectedStates.get(position);
     }
