@@ -113,7 +113,6 @@ public class AddCustomExpenses extends Activity {
                 }
                 newCustomName.setText("");
                 newAmount.setText("");
-                newDate.setText("");
                 newNote.setText("");
             }
         });
