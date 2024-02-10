@@ -70,19 +70,17 @@ public class Savings extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_savings, container, false);
+        savingsRecyclerView =  view.findViewById(R.id.SavingsRecyclerView);
         try {
-            view = inflater.inflate(R.layout.fragment_savings, container, false);
-            Log.d("ExpenseTracker", "Expenses onCreateView: Fragment Expenses Shown Successfully");
-            savingsRecyclerView =  view.findViewById(R.id.SavingsRecyclerView);
-            totalSavings  = view.findViewById(R.id.savingsTitleAmount);
-            totalSavings.setText("-"+DBHelper.getTotalExpenses(getContext()));
+            totalSavings = view.findViewById(R.id.savingsTitleAmount);
+            totalSavings.setText("+"+DBHelper.getTotalIncome(getContext()));
             updateRecyclerViewSavings(getContext(),savingsRecyclerView,getActivity());
-            Log.i("ExpenseTracker", "Savings onCreateView: Successfully Updated Recyclerview And SavingsTextView");
+            Log.i("ExpenseTracker", "onCreate : Savings is updated Successfully");
         }catch (Exception e){
-            Log.e("ExpenseTracker", "Savings onCreateView: Failed In Updated Recyclerview And SavingTextView"+e.toString() );
+            Log.e("Dashboard", e.toString());
         }
         return view;
     }

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedItem = dashboardOptions.get(position);
+                    try {
                     if (selectedItem.equals("Dashboard")) {
                         fragmentManager.beginTransaction().
                                 replace(R.id.fragmentContainerView,Dashboard.class,null)
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                                 .setReorderingAllowed(true)
                                 .addToBackStack("Expenses")
                                 .commit();
-
                     } else {
                         fragmentManager.beginTransaction().
                                 replace(R.id.fragmentContainerView, Expenses.class,null)
@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                                 .commit();
                     }
                     Log.d("ExpenseTracker", "onItemSelected() called with: parent = [" + parent + "], view = [" + view + "], position = [" + position + "], id = [" + id + "]"+"CurrentOption = ["+selectedItem+"]");
+                    }catch (Exception e){
+                        Log.e("ExpenseTracker","onItemSelected"+e.toString());
+                    }
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
