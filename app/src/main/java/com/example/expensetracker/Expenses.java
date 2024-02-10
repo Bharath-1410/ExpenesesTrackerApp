@@ -30,7 +30,7 @@ public class Expenses extends Fragment {
     View view ;
     static ImageView img;
     static TextView totalExpense ;
-    static RecyclerView expenseRecyclerView;
+    public static RecyclerView expenseRecyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,19 +75,20 @@ public class Expenses extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_expenses, container, false);
+        Log.d("ExpenseTracker", "Expenses onCreateView: Fragment Expenses Shown Successfully");
         expenseRecyclerView =  view.findViewById(R.id.expensesAndIncomeRecyclerView);
         totalExpense  = view.findViewById(R.id.titleAmount);
-        totalExpense.setText("-"+DBHelper.getTotalExpenses(getContext()));
         try {
+            totalExpense.setText("-"+DBHelper.getTotalExpenses(getContext()));
             updateRecyclerViewExpenses(getContext(),expenseRecyclerView,getActivity());
-            Log.d("Dashboard", "Dashboard is updated Successfully");
+            totalExpense.setText("-"+DBHelper.getTotalExpenses(getContext()));
+            Log.i("ExpenseTracker", "onCreateView: Successfully Updated Recyclerview And ExpensesTextView");
         }catch (Exception e){
-            Log.e("Dashboard", e.toString());
+            Log.e("ExpenseTracker", "Expenses onCreateView: Failed In Updated Recyclerview And ExpensesTextView"+e.toString() );
         }
         return view;
     }
     public static void updateRecyclerViewExpenses(Context context, RecyclerView recyclerView, Activity activity) {
-//        DBHelper dbHelper = new DBHelper();
         String[] projection = {"sno","name", "amount", "type", "tag", "date", "note"};
         String selection = "type=?";
         String[] selectionArgs = {"Expense"};
@@ -113,11 +114,10 @@ public class Expenses extends Fragment {
             updatedExpenseNote.add(row.get(6));
             images.add(img);
         }
-
+//        View v = LayoutInflater.from(context).inflate(R.layout.fragment_expenses,null);
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(upddatedId,images, updatedExpenseAmount, updatedExpenseType,updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName, updatedExpenseNote,context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
-        setTotalExpenses(context);
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -128,31 +128,39 @@ public class Expenses extends Fragment {
                 String amount = customRecyclerView.getAmountAtPosition(position);
                 String note = customRecyclerView.getNoteAtPosition(position);
                 String type = customRecyclerView.getTypeAtPosition(position);
+                int id = customRecyclerView.getIdAtPosition(position);
                 intent.putExtra("customName", customName);
                 intent.putExtra("tag", tag);
                 intent.putExtra("date", date);
                 intent.putExtra("amount", amount);
                 intent.putExtra("note", note);
                 intent.putExtra("type", type);
+                intent.putExtra("id", id);
                 activity.startActivity(intent);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                DBHelper.deleteRecord(context.getApplicationContext(), upddatedId.get(position));
-                updatedExpenseAmount.remove(position);
-                updatedExpenseDate.remove(position);
-                updatedExpenseNote.remove(position);
-                updatedExpenseTag.remove(position);
-                updatedExpenseType.remove(position);
-                updatedExpenseCustomName.remove(position);
-                customRecyclerView.notifyItemRemoved(position);
-                setTotalExpenses(context);
+                try {
+                    DBHelper.deleteRecord(context.getApplicationContext(), upddatedId.get(position));
+                    updatedExpenseAmount.remove(position);
+                    updatedExpenseDate.remove(position);
+                    updatedExpenseNote.remove(position);
+                    updatedExpenseTag.remove(position);
+                    updatedExpenseType.remove(position);
+                    updatedExpenseCustomName.remove(position);
+                    customRecyclerView.notifyItemRemoved(position);
+                }catch (Exception e){
+                    Log.e("Delete", "onItemLongClick: "+e.toString() );
+                }
             }
         });
         Log.d("ExpensesAndIncome", "updateRecyclerViewExpensesAndIncome: CustomRecyclerView is Getting updated");
     }
     public static void setTotalExpenses(Context context){
         totalExpense.setText("-"+DBHelper.getTotalExpenses(context));
+    }
+    public static RecyclerView getExpenseRecyclerView(){
+        return expenseRecyclerView;
     }
 }

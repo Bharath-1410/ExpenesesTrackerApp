@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHolder> {
+    public ArrayList<Integer> id;
     private ArrayList<ImageView> images;
-    private ArrayList<Integer> id;
     private static ArrayList<Boolean> itemSelectedStates;
     private ArrayList<String> expenseAmount;
     private ArrayList<String> expenseDate;
@@ -80,7 +80,7 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
             });
         }
 
-        public void bindData(String name, String amount,String type , String tag, String date) {
+        public void bindData(int id,String name, String amount,String type , String tag, String date,String note) {
             this.name.setText(name);
             if (type.equals("Income")){
                 this.amount.setText("+"+amount);
@@ -112,12 +112,14 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
 
     @Override
     public void onBindViewHolder(@NonNull CustomRecyclerView.ViewHolder holder, int position) {
+        int sno = id.get(position);
         String name = expenseCustomName.get(position);
         String amount = expenseAmount.get(position);
         String date = expenseDate.get(position);
         String type = expenseType.get(position);
         String tag = expenseTag.get(position);
-        holder.bindData(name, amount, type,tag, date);
+        String note = expenseNote.get(position);
+        holder.bindData(sno,name, amount, type,tag, date,note);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -136,9 +138,14 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
         return null;
     }
     public int getIdAtPosition(int position) {
-            return id.get(position);
-
+        Log.e("check", "getIdAtPosition: "+id);
+        Log.e("check", "getIdAtPosition: "+expenseCustomName);
+        if (position >= 0 && position < id.size()) {
+            return id.get(position); // Assuming your ArrayList contains objects with an "id" field
+        }
+        return -1;
     }
+
 
     public String getDateAtPosition(int position) {
         if (position >= 0 && position < expenseDate.size()) {

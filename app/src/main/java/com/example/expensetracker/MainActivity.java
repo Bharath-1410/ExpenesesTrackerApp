@@ -21,20 +21,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> dashboardOptions= new ArrayList<>();
-    View myView;
-    RecyclerView expenseRecyclerView;
-    private final ActivityResultLauncher<Intent> startForResult =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            if (data != null) {
-                                String expenseData = data.getStringExtra("expenseKey");
-                                Log.d("MainActivity", "Expense Data Received: " + expenseData);
-                                Toast.makeText(MainActivity.this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         CustomDropDown dashBoardDropDown = new CustomDropDown(this, dashboardOptions);
         dashBoardDropDown.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dashboard.setAdapter(dashBoardDropDown);
+        Log.d("ExpenseTracker", "Default Dashboard Fragment is Show Successfully");
         FragmentManager fragmentManager = getSupportFragmentManager();
         try {
             dashboard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -60,48 +47,39 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().
                                 replace(R.id.fragmentContainerView,Dashboard.class,null)
                                 .setReorderingAllowed(true)
-                                .addToBackStack("Dashboard") // Name can be null
+                                .addToBackStack("Dashboard")
                                 .commit();
                     } else if (selectedItem.equals("Savings")) {
                         fragmentManager.beginTransaction().
                                 replace(R.id.fragmentContainerView, Savings.class,null)
                                 .setReorderingAllowed(true)
-                                .addToBackStack("Expenses") // Name can be null
+                                .addToBackStack("Expenses")
                                 .commit();
 
                     } else {
                         fragmentManager.beginTransaction().
                                 replace(R.id.fragmentContainerView, Expenses.class,null)
                                 .setReorderingAllowed(true)
-                                .addToBackStack("Expenses") // Name can be null
+                                .addToBackStack("Expenses")
                                 .commit();
-
                     }
-                    Log.d("CurrentFragment", "Current Fragment is " + selectedItem);
+                    Log.d("ExpenseTracker", "onItemSelected() called with: parent = [" + parent + "], view = [" + view + "], position = [" + position + "], id = [" + id + "]"+"CurrentOption = ["+selectedItem+"]");
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-                    Log.d("CurrentFragment", "onNothingSelected: ");
+                    Log.d("ExpenseTracker","onNothingSelected is Triggered");
                 }
             });
         } catch (Exception e) {
             Log.e("CurrentFragment", e.toString());
+            Log.e("ExpenseTracker","Error Occurred In DashBoard.SetItemClickListener : "+e.toString());
         }
-//        // Creating New Fragment For Adding New Expenses
         FloatingActionButton fab = findViewById(R.id.addExpenses);
             fab.setOnClickListener(view -> {
                 Intent intent = new Intent(MainActivity.this, AddCustomExpenses.class);
                 Log.d("MainActivity", "FloatingActionButton clicked");
                 startActivity(intent);
+                Log.i("ExpenseTracker", "Starting Activity To Add a New Transaction");
         });
-    }
-//     Receiving Data Of New Expenses
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 464 && resultCode == RESULT_OK && data != null) {
-            String expenseData = data.getStringExtra("expenseKey");
-            Toast.makeText(this, "Data Received " + expenseData, Toast.LENGTH_SHORT).show();
-        }
     }
 }

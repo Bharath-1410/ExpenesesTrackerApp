@@ -34,12 +34,32 @@ public class DBHelper extends SQLiteOpenHelper {
         String createTableQuery = "CREATE TABLE IF NOT EXISTS transactions (sno INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, amount TEXT, type TEXT, tag TEXT, date TEXT, note TEXT)";
         db.execSQL(createTableQuery);
         Log.d("DBHelper", "Creation of transactions table is successful");
+        Log.d("ExpenseTracker", "DBHelper onCreate: Successfully Created Table transactions");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Upgrade your database here if needed
         // This method is called when the DATABASE_VERSION is incremented
+    }
+    public static void updateTransaction(int sno, Transaction transaction,Context context) {
+        try{
+            DBHelper dbHelper = new DBHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("name",transaction.getName());
+            values.put("amount",transaction.getAmount());
+            values.put("type",transaction.getType());
+            values.put("tag",transaction.getTag());
+            values.put("date",transaction.getDate());
+            values.put("note",transaction.getNote());
+            db.update("transactions", values, "sno = ?", new String[]{String.valueOf(sno)});
+            db.close();
+            Log.d("updated", "updateTransaction: Success "+sno);
+            Log.i("ExpenseTracker","updateTransaction: Successfully updated Records at "+sno+" The Values are "+transaction.getName()+", "+transaction.getAmount()+", "+transaction.getType()+", "+transaction.getTag()+", "+transaction.getDate()+", "+transaction.getNote());
+        }catch (Exception e){
+            Log.e("ExpenseTracker", "updateTransaction: "+e.toString() );
+        }
     }
 
     public long addTransaction(Transaction transaction){
@@ -54,6 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
         long newid = db.insert("transactions",null,values);
         db.close();
         Log.d("DBHelper", "addTransaction: {" + transaction.getName() + transaction.getAmount() + transaction.getType() + transaction.getTag() + transaction.getNote() + transaction.getDate() + "}" );
+        Log.w("ExpenseTracker", "addTransaction: {" + transaction.getName() + transaction.getAmount() + transaction.getType() + transaction.getTag() + transaction.getNote() + transaction.getDate() + "}" );
         return newid;
     }
 
@@ -82,10 +103,12 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         db.close();
+        Log.d("ExpenseTracker", "fetchData() returned: " + dataList);
         return dataList;
     }
 
     public static ArrayList<ArrayList<String>> fetchData(Context context, String[] projection) {
+        Log.d("ExpenseTracker", "Class "+context.getClass()+" fetchData() returned: " + fetchData(context.getApplicationContext(), projection,null,null));
         return fetchData(context.getApplicationContext(), projection,null,null);
     }
     public static void deleteRecord(Context context,int id) {
@@ -96,10 +119,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (rowsAffected > 0) {
             // Deletion successful
-            Log.d("MyDatabaseHelper", "Record deleted successfully");
+            Log.d("DBHelper", "Record deleted successfully");
+            Log.i("ExpenseTracker", "Record deleted successfully");
         } else {
             // No records were deleted
-            Log.d("MyDatabaseHelper", "No records deleted");
+            Log.d("DBHelper", "No records deleted");
+            Log.e("ExpenseTracker", "No records deleted");
         }
     }
     public static int getTotalExpenses(Context context) {
@@ -126,6 +151,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+        Log.d("ExpenseTracker", context.getClass()+" getTotalExpenses() returned: " + totalExpense);
         return totalExpense;
     }
     public static int getTotalIncome(Context context) {
@@ -152,6 +178,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
+        Log.d("ExpenseTracker", context.getClass()+" getTotalIncome() returned: " + totalExpense);
         return totalExpense;
     }
     

@@ -46,7 +46,7 @@ public class AddCustomExpenses extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.expenses_add_floaing_button);
-
+        Log.d("ExpenseTracker", "AddCustomExpenses onCreate: ExpensesAddFloatingButton To Add New Transaction Is Shown ");
         newCustomName = findViewById(R.id.newCustomName);
         newAmount = findViewById(R.id.newAmount);
         newDate = findViewById(R.id.newDate);
@@ -55,11 +55,12 @@ public class AddCustomExpenses extends Activity {
 
         addTransaction = findViewById(R.id.addNewTransaction);
 
-        // Dynamically + Statically Creating And Creating the Tags
+        // Dynamically + Statically Creating And Creating the Types
         ArrayList<String> defaultTypes = new ArrayList<>();
         defaultTypes.add("Income");
         defaultTypes.add("Expense");
 
+        // Dynamically + Statically Creating And Creating the Tags
         ArrayList<String> defaultTags = new ArrayList<>();
         defaultTags.add("Entertainment");
         defaultTags.add("Food");
@@ -75,7 +76,7 @@ public class AddCustomExpenses extends Activity {
         tag.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         inputTag.setAdapter(tag);
 
-        // DataBase Section
+
         dbHelper = new DBHelper(getApplicationContext());
         addTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,38 +87,45 @@ public class AddCustomExpenses extends Activity {
                 String note = newNote.getText().toString();
                 String type = transactionType.getSelectedItem().toString(); ;
                 String tag = inputTag.getSelectedItem().toString();
+
                 // Filling all the Values
                 String[] items = {customName, String.valueOf(amount), date};
                 String[] itemHints = {"Title", "Amount", "Date"};
-                System.out.println("newrowid");
-                try {
-                    Log.d("date", "currentDate :"+getCustomFormattedDateTime());
-                }catch (Exception e){
-                    Log.e("date",e.toString() );
-                }
+
                 long newRowId = 0;
                 try{
                     newRowId = dbHelper.addTransaction(new Transaction(customName,amount,type,tag,date,note));
-                    Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.expenseRecyclerView,AddCustomExpenses.this);
+                    Log.d("ExpenseTracker", "AddCustomExpenses onClick: Added New Transaction");
+                    Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),AddCustomExpenses.this);
+                    Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Dashboard next Expenses");
                     Expenses.updateRecyclerViewExpenses(getApplicationContext(),Expenses.expenseRecyclerView,AddCustomExpenses.this);
+                    Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Expenses next Savings");
                     Savings.updateRecyclerViewSavings(getApplicationContext(),Savings.savingsRecyclerView,AddCustomExpenses.this);
+                    Log.w("ExpenseTracker", "AddCustomExpenses onClick: Updated Saving");
+                    Log.i("ExpenseTracker", "AddCustomExpenses onClick Successfully Updated Dashboard, Expenses, Savings Fragments");
                 }catch (Exception e){
-                    Log.d("DBHelper", e.toString());
+                    Log.e("ExpenseTracker", "AddCustomExpenses onClick: Trying To Update Dashboard, Expenses, Savings Fragments Error : "+e.toString());
                 }
                 if (newRowId != -1) {
                     addSnackBar(v, "Successfully Added " + customName, "Success");
                     Log.d("DBHelper", "Insertion Successful");
+                    Log.d("ExpenseTracker", "AddCustomExpenses onClick: Inserting Successful");
+                    Log.d("ExpenseTracker", "AddCustomExpenses SnackBar: Successfully Shown MSG : "+customName+" Is Added");
                 } else {
                     Log.d("DBHelper", "InsertionFailed");
+                    Log.d("ExpenseTracker", "InsertionFailed");
+                    Log.d("ExpenseTracker", "AddCustomExpenses SnackBar: Failed Shown MSG : "+customName+" Is Added");
                     addSnackBar(v, "Failed To Add " + customName, "Fail");
                 }
                 newCustomName.setText("");
                 newAmount.setText("");
                 newNote.setText("");
+                Log.d("ExpenseTracker", "AddCustomExpenses onClick: Rested Name, Amount, Note");
             }
         });
     }
     public static void addSnackBar(View view, String message, String messageType) {
+
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         snackbar.setTextColor(Color.WHITE);
         if (messageType.equals("Success")) {
@@ -130,6 +138,7 @@ public class AddCustomExpenses extends Activity {
     public static String getCustomFormattedDateTime() {
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d , yyyy  h:mm a", Locale.ENGLISH);
+        Log.d("ExpenseTracker", "getCustomFormattedDateTime() returned: " +currentDateTime.format(formatter) );
         return currentDateTime.format(formatter);
     }
 }

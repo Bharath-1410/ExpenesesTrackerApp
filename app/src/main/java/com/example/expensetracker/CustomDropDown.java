@@ -36,7 +36,6 @@ public class CustomDropDown extends ArrayAdapter<String> {
 
         TextView textView = convertView.findViewById(android.R.id.text1);
         textView.setText(getItem(position));
-        // color of DropDown is getting set here
         textView.setTextColor(getContext().getResources().getColor(android.R.color.white));
         textView.setPadding(50,0,0,0);
         return convertView;

@@ -39,13 +39,6 @@ public class Dashboard extends Fragment {
     private String mParam1;
     private String mParam2;
     public  static RecyclerView expenseRecyclerView;
-    CustomRecyclerView customRecyclerView;
-    DBHelper dbHelper;
-    FragmentContainerView fragmentContainerView;
-    public ArrayList<String> expenseAmount;
-    public ArrayList<String> expenseDate;
-    public ArrayList<String> expenseType;
-    public ArrayList<String> expenseCustomName;
     public Dashboard() {
         // Required empty public constructor
     }
@@ -79,6 +72,7 @@ public class Dashboard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        Log.d("ExpenseTracker", "onCreateView: Successfully Shown The FragmentDashboard");
         expenseRecyclerView =  view.findViewById(R.id.expenseRecyclerView);
         totalExpense = view.findViewById(R.id.totalExpenses);
         totalAmount = view.findViewById(R.id.totalAmount);
@@ -86,8 +80,10 @@ public class Dashboard extends Fragment {
         try {
             updateRecyclerViewData(getContext(),expenseRecyclerView,getActivity());
             Log.d("Dashboard", "Dashboard is updated Successfully");
+            Log.d("ExpenseTracker", "Dashboard onCreateView: DashBoard Is Getting Updated Successfully");
         }catch (Exception e){
             Log.e("Dashboard", e.toString());
+            Log.d("ExpenseTracker", "Dashboard onCreateView: "+e.toString());
         }
         return view;
     }
@@ -102,7 +98,7 @@ public class Dashboard extends Fragment {
         ArrayList<String> updatedExpenseNote = new ArrayList<>();
         ArrayList<Integer> upddatedId = new ArrayList<>();
         ArrayList<ImageView> images = new ArrayList<>();
-        // Separating the dataList
+
         for (ArrayList<String> row : incomeData) {
             upddatedId.add(Integer.parseInt(row.get(0)));
             updatedExpenseCustomName.add(row.get(1));
@@ -120,6 +116,8 @@ public class Dashboard extends Fragment {
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                try {
+                    System.out.println("maya");
                 Intent intent = new Intent(context, ExpensesDetails.class);
                 String customName = customRecyclerView.getCustomNameAtPosition(position);
                 String tag = customRecyclerView.getTagAtPosition(position);
@@ -127,37 +125,62 @@ public class Dashboard extends Fragment {
                 String amount = customRecyclerView.getAmountAtPosition(position);
                 String note = customRecyclerView.getNoteAtPosition(position);
                 String type = customRecyclerView.getTypeAtPosition(position);
+                int id = customRecyclerView.getIdAtPosition(position);
+//                    Log.e("check", ""+customRecyclerView.id);
                 intent.putExtra("customName", customName);
                 intent.putExtra("tag", tag);
                 intent.putExtra("date", date);
                 intent.putExtra("amount", amount);
                 intent.putExtra("note", note);
                 intent.putExtra("type", type);
+                intent.putExtra("id", id);
+                Log.w("check", "onItemClick: "+id);
                 activity.startActivity(intent);
+                Log.d("ExpenseTracker", "Dashboard onItemClick: StartActivity To Show And Update RecyclerView Items");
+                }catch (Exception e){
+                    Log.e("ExpenseTracker", "onItemClick: "+e.toString() );
+                    Log.e("check", "onItemClick: "+e.toString() );
+                }
             }
 
             @Override
             public void onItemLongClick(int position) {
                 try {
-                DBHelper.deleteRecord(context.getApplicationContext(), upddatedId.get(position));
-                updatedExpenseAmount.remove(position);
-                updatedExpenseDate.remove(position);
-                updatedExpenseNote.remove(position);
-                updatedExpenseTag.remove(position);
-                updatedExpenseType.remove(position);
-                updatedExpenseCustomName.remove(position);
-                customRecyclerView.notifyItemRemoved(position);
-                setAllAmounts(context);
-                }catch (Exception e){
-                    Log.e("Delete", "onItemLongClick: "+e.toString() );
+                    int removedId = upddatedId.remove(position);
+                    updatedExpenseAmount.remove(position);
+                    updatedExpenseDate.remove(position);
+                    updatedExpenseNote.remove(position);
+                    updatedExpenseTag.remove(position);
+                    updatedExpenseType.remove(position);
+                    updatedExpenseCustomName.remove(position);
+                    customRecyclerView.notifyItemRemoved(position);
+                    DBHelper.deleteRecord(context.getApplicationContext(), removedId);
+                    setAllAmounts(context);
+
+                    Log.i("ExpenseTracker", "Dashboard onItemLongClick: Deletion Successful ");
+                } catch (Exception e) {
+                    Log.e("ExpenseTracker", "Dashboard onItemLongClick: " + e.toString());
                 }
             }
         });
-        Log.d("MainActivity", "updateRecyclerViewData: CustomRecyclerView is Getting updated");
     }
     public static void setAllAmounts(Context context){
         totalAmount.setText(""+(DBHelper.getTotalIncome(context) + DBHelper.getTotalExpenses(context)));
         totalExpense.setText("-"+DBHelper.getTotalExpenses(context));
         totalSavings.setText("+"+DBHelper.getTotalIncome(context));
+        Log.i("ExpenseTracker", "Dashboard setAllAmounts Is Executed Successfully");
+    }
+    public static RecyclerView getExpenseRecyclerView(){
+        Log.d("ExpenseTracker", "Dashboard getExpenseRecyclerView() returned: " + expenseRecyclerView);
+        return expenseRecyclerView;
+    }
+    public static TextView getTotalExpense(){
+        return totalExpense;
+    }
+    public static TextView getTotalAmount(){
+        return totalAmount;
+    }
+    public static TextView getTotalSavings(){
+        return totalSavings;
     }
 }

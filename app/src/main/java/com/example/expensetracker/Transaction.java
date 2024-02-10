@@ -1,5 +1,7 @@
 package com.example.expensetracker;
 
+import android.util.Log;
+
 public class Transaction {
     private String name;
     private String amount;
@@ -14,8 +16,8 @@ public class Transaction {
         this.tag = tag;
         this.note = note;
         this.type = type;
+        Log.d("ExpenseTracker", "Transaction: { Name : "+name+", Amount : "+amount+", Type : "+type+", Tag : "+tag+", Date"+date+", Note : "+note+"}");
     }
-
     public String getName() {
         return name;
     }
