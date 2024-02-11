@@ -39,8 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Upgrade your database here if needed
-        // This method is called when the DATABASE_VERSION is incremented
+
     }
     public static void updateTransaction(int sno, Transaction transaction,Context context) {
         try{

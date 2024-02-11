@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> dashboardOptions= new ArrayList<>();
+    public static String currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,26 +45,27 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedItem = dashboardOptions.get(position);
                     try {
-                    if (selectedItem.equals("Dashboard")) {
-                        fragmentManager.beginTransaction().
-                                replace(R.id.fragmentContainerView,Dashboard.class,null)
-                                .setReorderingAllowed(true)
-                                .addToBackStack("Dashboard")
-                                .commit();
-                    } else if (selectedItem.equals("Savings")) {
-                        fragmentManager.beginTransaction().
-                                replace(R.id.fragmentContainerView, Savings.class,null)
-                                .setReorderingAllowed(true)
-                                .addToBackStack("Expenses")
-                                .commit();
-                    } else {
-                        fragmentManager.beginTransaction().
-                                replace(R.id.fragmentContainerView, Expenses.class,null)
-                                .setReorderingAllowed(true)
-                                .addToBackStack("Expenses")
-                                .commit();
-                    }
-                    Log.d("ExpenseTracker", "onItemSelected() called with: parent = [" + parent + "], view = [" + view + "], position = [" + position + "], id = [" + id + "]"+"CurrentOption = ["+selectedItem+"]");
+                        if (selectedItem.equals("Dashboard")) {
+                            fragmentManager.beginTransaction().
+                                    replace(R.id.fragmentContainerView,Dashboard.class,null)
+                                    .setReorderingAllowed(true)
+                                    .addToBackStack("Dashboard")
+                                    .commit();
+                        } else if (selectedItem.equals("Savings")) {
+                            fragmentManager.beginTransaction().
+                                    replace(R.id.fragmentContainerView, Savings.class,null)
+                                    .setReorderingAllowed(true)
+                                    .addToBackStack("Expenses")
+                                    .commit();
+                        } else {
+                            fragmentManager.beginTransaction().
+                                    replace(R.id.fragmentContainerView, Expenses.class,null)
+                                    .setReorderingAllowed(true)
+                                    .addToBackStack("Expenses")
+                                    .commit();
+                        }
+                        currentFragment = selectedItem;
+                    Log.d("ExpenseTracker", "onItemSelected() called with:"+"CurrentOption = ["+selectedItem+"]");
                     }catch (Exception e){
                         Log.e("ExpenseTracker","onItemSelected"+e.toString());
                     }

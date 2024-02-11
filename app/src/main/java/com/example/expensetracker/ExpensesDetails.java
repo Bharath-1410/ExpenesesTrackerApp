@@ -34,7 +34,7 @@ public class ExpensesDetails extends AppCompatActivity {
         String note = getIntent().getStringExtra("note");
         String type = getIntent().getStringExtra("type");
         int id = getIntent().getIntExtra("id",0);
-        Log.i("check", "Received  id"+id+" values"+customName + tag+date+amount+amount+note+type);
+        Log.i("check", "ExpensesDetails : Received  id "+id+" values"+customName + tag+date+amount+amount+note+type);
         updateTransaction = findViewById(R.id.updateTransaction);
 
         expenseCustomName = findViewById(R.id.expensesName);
@@ -84,19 +84,20 @@ public class ExpensesDetails extends AppCompatActivity {
                     String name = String.valueOf(expenseCustomName.getText());
                     String amount = String.valueOf(expenseAmount.getText());
                     String type = String.valueOf(defaultTypes.get(Integer.parseInt(String.valueOf(expenseType.getSelectedItemId()))));
-                    String tag = String.valueOf(defaultTags.get(Integer.parseInt(String.valueOf(expenseType.getSelectedItemId()))));
+                    String tag = String.valueOf(defaultTags.get(Integer.parseInt(String.valueOf(expenseTag.getSelectedItemId()))));
                     String date = String.valueOf(expenseDate.getText());
                     String note = String.valueOf(expenseNote.getText());
                     DBHelper.updateTransaction(id,new Transaction(name,amount,type,tag,date,note),getApplicationContext());
                     Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),ExpensesDetails.this);
                     Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Dashboard Next Expenses");
-                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),expensesView,ExpensesDetails.this);
-                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Expenses Next Savings");
-                    Savings.updateRecyclerViewSavings(getApplicationContext(),savingsView,ExpensesDetails.this);
-                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Savings");
+//                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),expensesView,ExpensesDetails.this);
+//                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Expenses Next Savings");
+//                    Savings.updateRecyclerViewSavings(getApplicationContext(),savingsView,ExpensesDetails.this);
+//                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Savings");
                     AddCustomExpenses.addSnackBar(v,"Successfully Updated "+name,"Success");
                     Log.d("update", "Updation Successfully");
                     Log.i("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Record");
+                    Log.i("check", "DataList"+DBHelper.fetchData(getApplicationContext(), new String[]{"sno", "name", "amount", "type", "tag", "date", "note"}));
                 }catch (Exception e){
                     Log.e("update", "Updation Failed"+e.toString());
                     Log.e("ExpenseTracker", "ExpensesDetails onClick: Failed To Update error : "+e.toString());

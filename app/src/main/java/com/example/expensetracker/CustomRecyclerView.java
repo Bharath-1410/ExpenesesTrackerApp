@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.ViewHolder> {
-    public ArrayList<Integer> id;
+    private ArrayList<Integer> id;
     private ArrayList<ImageView> images;
     private static ArrayList<Boolean> itemSelectedStates;
     private ArrayList<String> expenseAmount;
@@ -119,9 +119,8 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
         String type = expenseType.get(position);
         String tag = expenseTag.get(position);
         String note = expenseNote.get(position);
-        holder.bindData(sno,name, amount, type,tag, date,note);
+        holder.bindData(sno,name, String.valueOf(sno),type,tag, date,note);
     }
-
     public void setOnItemClickListener(OnItemClickListener listener){
         onItemClickListener = listener;
     }
@@ -139,13 +138,12 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
     }
     public int getIdAtPosition(int position) {
         Log.e("check", "getIdAtPosition: "+id);
-        Log.e("check", "getIdAtPosition: "+expenseCustomName);
+        Log.e("check", "getIdAtPosition: "+expenseCustomName.size());
         if (position >= 0 && position < id.size()) {
             return id.get(position); // Assuming your ArrayList contains objects with an "id" field
         }
         return -1;
     }
-
 
     public String getDateAtPosition(int position) {
         if (position >= 0 && position < expenseDate.size()) {

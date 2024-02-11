@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 public class AddCustomExpenses extends Activity {
     EditText newCustomName,newAmount,newDate,newNote;
+    View v1,v2;
+    RecyclerView savingsView,expensesView;
 //    TextView newRecyclerExpenseCustomName,newRecyclerExpenseAmount,newRecyclerExpenseDate,newRecyclerExpenseType;
     TextView addTransaction;
     DBHelper dbHelper;
@@ -78,6 +80,11 @@ public class AddCustomExpenses extends Activity {
 
 
         dbHelper = new DBHelper(getApplicationContext());
+
+        v1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_expenses,null);
+        v2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_savings,null);
+        savingsView = v2.findViewById(R.id.SavingsRecyclerView);
+        expensesView = v1.findViewById(R.id.expensesAndIncomeRecyclerView);
         addTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +105,9 @@ public class AddCustomExpenses extends Activity {
                     Log.d("ExpenseTracker", "AddCustomExpenses onClick: Added New Transaction");
                     Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),AddCustomExpenses.this);
                     Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Dashboard next Expenses");
-                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),Expenses.expenseRecyclerView,AddCustomExpenses.this);
+                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),Expenses.getExpenseRecyclerView(),AddCustomExpenses.this);
                     Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Expenses next Savings");
-                    Savings.updateRecyclerViewSavings(getApplicationContext(),Savings.savingsRecyclerView,AddCustomExpenses.this);
+                    Savings.updateRecyclerViewSavings(getApplicationContext(),Savings.getSavingsRecyclerView(),AddCustomExpenses.this);
                     Log.w("ExpenseTracker", "AddCustomExpenses onClick: Updated Saving");
                     Log.i("ExpenseTracker", "AddCustomExpenses onClick Successfully Updated Dashboard, Expenses, Savings Fragments");
                 }catch (Exception e){

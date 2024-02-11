@@ -13,11 +13,10 @@
 
         <LinearLayout
             android:id="@+id/linearLayout3"
-            android:layout_width="226dp"
-            android:layout_height="105dp"
-            android:layout_marginTop="44dp"
-            android:background="@color/subBackGround"
-            android:backgroundTint="@color/subBackGround"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/round_edges"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -31,7 +30,7 @@
                 android:gravity="center"
                 android:paddingTop="15dp"
                 android:text="Total Amount"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/textColor" />
 
             <TextView
                 android:id="@+id/totalAmount"
@@ -41,7 +40,7 @@
                 android:gravity="center"
                 android:text="12000"
                 android:textAlignment="gravity"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/textColor"
                 android:textColorHighlight="#000000"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -50,27 +49,24 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="345dp"
-            android:layout_height="123dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
             <LinearLayout
-                android:layout_width="161dp"
-                android:layout_height="89dp"
+                android:layout_width="170dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/subBackGround"
-                android:backgroundTint="@color/subBackGround"
 
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/round_edges"
                 android:orientation="vertical">
 
                 <TextView
@@ -80,7 +76,7 @@
                     android:gravity="center"
                     android:paddingTop="15dp"
                     android:text="Total Income"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/totalIncome"
@@ -88,7 +84,7 @@
                     android:layout_height="62dp"
                     android:gravity="center"
                     android:text="+15000"
-                    android:textColor="@color/saving"
+                    android:textColor="@color/textColor"
                     android:textSize="24sp"
                     android:textStyle="normal|bold"
                     app:layout_constraintWidth_percent="0.5" />
@@ -97,10 +93,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="168dp"
-                android:layout_height="93dp"
-                android:background="@color/subBackGround"
-                android:backgroundTint="@color/subBackGround"
+                android:layout_width="170dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/round_edges"
                 android:orientation="vertical">
 
                 <TextView
@@ -110,7 +107,7 @@
                     android:gravity="center"
                     android:paddingTop="15dp"
                     android:text="Total Expenses"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/totalExpenses"
@@ -118,7 +115,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="-1000"
-                    android:textColor="@color/expense"
+                    android:textColor="@color/textColor"
                     android:textSize="24sp"
                     android:textStyle="normal|bold" />
 
@@ -142,9 +139,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="5dp"
                 android:text="Recent Activity"
-                android:textColor="@android:color/white"
+                android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -152,10 +149,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="10dp"
                 android:paddingRight="10dp">
 
             </androidx.recyclerview.widget.RecyclerView>

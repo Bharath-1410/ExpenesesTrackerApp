@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:backgroundTint="@color/background">
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="7dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +22,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/subBackGround"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/round_edges"
             android:gravity="start|center_vertical"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
@@ -32,8 +37,8 @@
                 android:id="@+id/dashBoard"
                 android:layout_width="160dp"
                 android:layout_height="60dp"
-                android:background="@color/subBackGround"
-                android:popupBackground="@color/subBackGround"
+                android:background="@color/smoke"
+                android:popupBackground="@color/smoke"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.appcompat.widget.Toolbar>
@@ -41,8 +46,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/charcoal"
-            android:backgroundTint="@color/charcoal"
+            android:background="@color/background"
+            android:backgroundTint="@color/background"
             android:fadeScrollbars="true"
             android:fillViewport="true"
             android:scrollX="0dp"

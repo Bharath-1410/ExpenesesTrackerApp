@@ -13,43 +13,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/layoutTitle"
-            android:layout_width="240dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="44dp"
-            android:background="@color/subBackGround"
-            android:backgroundTint="@color/subBackGround"
-            android:gravity="center"
-            android:text="Expense"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/round_edges"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/titleAmount"
-            android:layout_width="240dp"
-            android:layout_height="73dp"
-            android:background="@color/subBackGround"
-            android:backgroundTint="@color/subBackGround"
-            android:gravity="center"
-            android:text="3000"
-            android:textColor="@color/expense"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTitle" />
+            <TextView
+                android:id="@+id/layoutTitle"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="Expense"
+                android:textColor="@color/textColor"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/titleAmount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="3000"
+                android:textColor="@color/textColor"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/titleAmount">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
             <TextView
                 android:id="@+id/recentTitle"
@@ -58,7 +58,7 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="60dp"
                 android:text="Recent Expenses"
-                android:textColor="@color/white" />
+                android:textColor="@color/textColor" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/expensesAndIncomeRecyclerView"

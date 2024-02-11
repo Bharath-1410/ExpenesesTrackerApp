@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="15dp"
-    android:backgroundTint="#3B2525">
+    android:layout_marginBottom="3dp"
+    android:background="@drawable/round_edges">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="93dp"
-        android:background="@color/subBackGround"
-        android:backgroundTint="@color/subBackGround"
+        android:elevation="8dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="15dp"
@@ -43,7 +42,7 @@
                 android:gravity="center_vertical"
                 android:paddingTop="7dp"
                 android:text="Cashback Offer"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/textColor"
                 android:textSize="17dp" />
 
             <TextView
@@ -52,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="enterainment"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/textColor"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -78,7 +77,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="start|center_vertical"
                 android:text="oct 30,2024"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/textColor"
                 android:textSize="10sp" />
 
         </LinearLayout>

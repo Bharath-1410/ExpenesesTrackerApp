@@ -13,37 +13,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/savingsLayoutTitle"
-            android:layout_width="240dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="44dp"
-            android:background="@color/subBackGround"
-            android:backgroundTint="@color/subBackGround"
-            android:gravity="center"
-            android:text="Savings"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/round_edges"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/savingsTitleAmount"
-            android:layout_width="240dp"
-            android:layout_height="73dp"
-            android:background="@color/subBackGround"
-            android:backgroundTint="@color/subBackGround"
-            android:gravity="center"
-            android:text="3000"
-            android:textColor="@color/saving"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/savingsLayoutTitle" />
+            <TextView
+                android:id="@+id/savingsLayoutTitle"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:gravity="center"
+                android:text="Savings"
+                android:textColor="@color/textColor"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/savingsTitleAmount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="3000"
+                android:textColor="@color/textColor"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,16 +52,16 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/savingsTitleAmount">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
             <TextView
                 android:id="@+id/savingsRecentTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="5dp"
                 android:text="Recent Expenses"
-                android:textColor="@color/white" />
+                android:textColor="@color/textColor" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/SavingsRecyclerView"

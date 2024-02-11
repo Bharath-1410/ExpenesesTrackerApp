@@ -96,11 +96,11 @@ public class Dashboard extends Fragment {
         ArrayList<String> updatedExpenseTag = new ArrayList<>();
         ArrayList<String> updatedExpenseDate = new ArrayList<>();
         ArrayList<String> updatedExpenseNote = new ArrayList<>();
-        ArrayList<Integer> upddatedId = new ArrayList<>();
+        ArrayList<Integer> updatedId = new ArrayList<>();
         ArrayList<ImageView> images = new ArrayList<>();
 
         for (ArrayList<String> row : incomeData) {
-            upddatedId.add(Integer.parseInt(row.get(0)));
+            updatedId.add(Integer.parseInt(row.get(0)));
             updatedExpenseCustomName.add(row.get(1));
             updatedExpenseAmount.add(row.get(2));
             updatedExpenseType.add(row.get(3));
@@ -109,7 +109,7 @@ public class Dashboard extends Fragment {
             updatedExpenseNote.add(row.get(6));
             images.add(Expenses.img);
         }
-        CustomRecyclerView customRecyclerView = new CustomRecyclerView(upddatedId,images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName,updatedExpenseNote,context);
+        CustomRecyclerView customRecyclerView = new CustomRecyclerView(updatedId,images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName,updatedExpenseNote,context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
         setAllAmounts(context);
@@ -117,26 +117,25 @@ public class Dashboard extends Fragment {
             @Override
             public void onItemClick(int position) {
                 try {
-                    System.out.println("maya");
-                Intent intent = new Intent(context, ExpensesDetails.class);
-                String customName = customRecyclerView.getCustomNameAtPosition(position);
-                String tag = customRecyclerView.getTagAtPosition(position);
-                String date = customRecyclerView.getDateAtPosition(position);
-                String amount = customRecyclerView.getAmountAtPosition(position);
-                String note = customRecyclerView.getNoteAtPosition(position);
-                String type = customRecyclerView.getTypeAtPosition(position);
-                int id = customRecyclerView.getIdAtPosition(position);
-//                    Log.e("check", ""+customRecyclerView.id);
-                intent.putExtra("customName", customName);
-                intent.putExtra("tag", tag);
-                intent.putExtra("date", date);
-                intent.putExtra("amount", amount);
-                intent.putExtra("note", note);
-                intent.putExtra("type", type);
-                intent.putExtra("id", id);
-                Log.w("check", "onItemClick: "+id);
-                activity.startActivity(intent);
-                Log.d("ExpenseTracker", "Dashboard onItemClick: StartActivity To Show And Update RecyclerView Items");
+                    Intent intent = new Intent(context, ExpensesDetails.class);
+                    String customName = customRecyclerView.getCustomNameAtPosition(position);
+                    String tag = customRecyclerView.getTagAtPosition(position);
+                    String date = customRecyclerView.getDateAtPosition(position);
+                    String amount = customRecyclerView.getAmountAtPosition(position);
+                    String note = customRecyclerView.getNoteAtPosition(position);
+                    String type = customRecyclerView.getTypeAtPosition(position);
+                    int id = customRecyclerView.getIdAtPosition(position);
+                    Log.e("position", "Position :" +position );
+                    intent.putExtra("customName", customName);
+                    intent.putExtra("tag", tag);
+                    intent.putExtra("date", date);
+                    intent.putExtra("amount", amount);
+                    intent.putExtra("note", note);
+                    intent.putExtra("type", type);
+                    intent.putExtra("id", id);
+                    Log.w("check", "onItemClick: "+id);
+                    activity.startActivity(intent);
+                    Log.d("ExpenseTracker", "Dashboard onItemClick: StartActivity To Show And Update RecyclerView Items");
                 }catch (Exception e){
                     Log.e("ExpenseTracker", "onItemClick: "+e.toString() );
                     Log.e("check", "onItemClick: "+e.toString() );
@@ -146,18 +145,17 @@ public class Dashboard extends Fragment {
             @Override
             public void onItemLongClick(int position) {
                 try {
-                    int removedId = upddatedId.remove(position);
+                    customRecyclerView.notifyItemRemoved(position);
+                    int removedId = updatedId.remove(position);
                     updatedExpenseAmount.remove(position);
                     updatedExpenseDate.remove(position);
                     updatedExpenseNote.remove(position);
                     updatedExpenseTag.remove(position);
                     updatedExpenseType.remove(position);
                     updatedExpenseCustomName.remove(position);
-                    customRecyclerView.notifyItemRemoved(position);
                     DBHelper.deleteRecord(context.getApplicationContext(), removedId);
                     setAllAmounts(context);
-
-                    Log.i("ExpenseTracker", "Dashboard onItemLongClick: Deletion Successful ");
+                    Log.i("ExpenseTracker", "Dashboard onItemLongClick: Deletion Successful "+position);
                 } catch (Exception e) {
                     Log.e("ExpenseTracker", "Dashboard onItemLongClick: " + e.toString());
                 }
