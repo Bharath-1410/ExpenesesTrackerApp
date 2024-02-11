@@ -65,8 +65,13 @@ public class AddCustomExpenses extends Activity {
         // Dynamically + Statically Creating And Creating the Tags
         ArrayList<String> defaultTags = new ArrayList<>();
         defaultTags.add("Entertainment");
+        defaultTags.add("Job");
+        defaultTags.add("Education");
+        defaultTags.add("Education");
         defaultTags.add("Food");
         defaultTags.add("Traveling");
+        defaultTags.add("Hospital");
+        defaultTags.add("Others");
 
         Spinner transactionType = findViewById(R.id.transactionType);
         CustomDropDown type = new CustomDropDown(this, defaultTypes);

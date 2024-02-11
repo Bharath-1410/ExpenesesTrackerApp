@@ -60,8 +60,13 @@ public class ExpensesDetails extends AppCompatActivity {
         // Dynamically + Statically Creating And Creating the Tags
         ArrayList<String> defaultTags = new ArrayList<>();
         defaultTags.add("Entertainment");
+        defaultTags.add("Job");
+        defaultTags.add("Education");
+        defaultTags.add("HouseHold");
         defaultTags.add("Food");
         defaultTags.add("Traveling");
+        defaultTags.add("Hospital");
+        defaultTags.add("Others");
 
         CustomDropDown Type = new CustomDropDown(this, defaultTypes);
         Type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
