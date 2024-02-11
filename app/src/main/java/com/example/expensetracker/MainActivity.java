@@ -1,20 +1,17 @@
 package com.example.expensetracker;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,6 +20,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> dashboardOptions= new ArrayList<>();
     public static String currentFragment;
+    public static MediaPlayer mediaPlayerOnClick;
+    public static MediaPlayer mediaPlayerOnDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +96,28 @@ public class MainActivity extends AppCompatActivity {
             Log.i("ExpenseTracker", "onBackPressed: Blocked Expenses");
         }else {
             Log.i("ExpenseTracker", "onBackPressed: Blocked Dashboard");
+        }
+    }
+    public static void playOnClickSound(Activity activity) {
+        mediaPlayerOnClick = MediaPlayer.create(activity,R.raw.deleted);
+        mediaPlayerOnClick.start();
+    }
+    public static void playOnDeleteSound(Activity activity) {
+        mediaPlayerOnDelete = MediaPlayer.create(activity,R.raw.deleted);
+        mediaPlayerOnDelete.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Release the MediaPlayer when the activity is destroyed
+        if (mediaPlayerOnClick != null) {
+            mediaPlayerOnClick.release();
+            mediaPlayerOnClick = null;
+        }
+        if (mediaPlayerOnDelete != null) {
+            mediaPlayerOnDelete.release();
+            mediaPlayerOnDelete = null;
         }
     }
 }

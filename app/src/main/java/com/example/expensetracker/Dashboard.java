@@ -117,6 +117,7 @@ public class Dashboard extends Fragment {
             @Override
             public void onItemClick(int position) {
                 try {
+                    MainActivity.playOnClickSound(activity);
                     Intent intent = new Intent(context, ExpensesDetails.class);
                     String customName = customRecyclerView.getCustomNameAtPosition(position);
                     String tag = customRecyclerView.getTagAtPosition(position);
@@ -145,6 +146,7 @@ public class Dashboard extends Fragment {
             @Override
             public void onItemLongClick(int position) {
                 try {
+                    MainActivity.playOnDeleteSound(activity);
                     customRecyclerView.notifyItemRemoved(position);
                     int removedId = updatedId.remove(position);
                     updatedExpenseAmount.remove(position);
