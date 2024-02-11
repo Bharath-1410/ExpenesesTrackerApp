@@ -90,7 +90,7 @@ public class ExpensesDetails extends AppCompatActivity {
                     DBHelper.updateTransaction(id,new Transaction(name,amount,type,tag,date,note),getApplicationContext());
                     Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),ExpensesDetails.this);
                     Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Dashboard Next Expenses");
-//                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),expensesView,ExpensesDetails.this);
+//                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),Dashboard.getExpenseRecyclerView(),ExpensesDetails.this);
 //                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Expenses Next Savings");
 //                    Savings.updateRecyclerViewSavings(getApplicationContext(),savingsView,ExpensesDetails.this);
 //                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Savings");

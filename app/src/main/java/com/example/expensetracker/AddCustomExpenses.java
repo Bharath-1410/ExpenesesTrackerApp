@@ -103,12 +103,17 @@ public class AddCustomExpenses extends Activity {
                 try{
                     newRowId = dbHelper.addTransaction(new Transaction(customName,amount,type,tag,date,note));
                     Log.d("ExpenseTracker", "AddCustomExpenses onClick: Added New Transaction");
-                    Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),AddCustomExpenses.this);
+                    if(MainActivity.currentFragment.equals("Dashboard")){
+                        Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),AddCustomExpenses.this);
                     Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Dashboard next Expenses");
-                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),Expenses.getExpenseRecyclerView(),AddCustomExpenses.this);
-                    Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Expenses next Savings");
+                    } else if (MainActivity.currentFragment.equals("Expenses")) {
+                        Expenses.updateRecyclerViewExpenses(getApplicationContext(), Expenses.getExpenseRecyclerView(), AddCustomExpenses.this);
+                        Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Expenses next Savings");
+                    }else {
                     Savings.updateRecyclerViewSavings(getApplicationContext(),Savings.getSavingsRecyclerView(),AddCustomExpenses.this);
                     Log.w("ExpenseTracker", "AddCustomExpenses onClick: Updated Saving");
+                    }
+                    Log.e("ExpenseTracker", "AddCustomExpenses onClick: "+MainActivity.currentFragment );
                     Log.i("ExpenseTracker", "AddCustomExpenses onClick Successfully Updated Dashboard, Expenses, Savings Fragments");
                 }catch (Exception e){
                     Log.e("ExpenseTracker", "AddCustomExpenses onClick: Trying To Update Dashboard, Expenses, Savings Fragments Error : "+e.toString());
