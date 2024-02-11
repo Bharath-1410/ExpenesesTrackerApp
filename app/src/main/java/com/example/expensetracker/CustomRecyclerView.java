@@ -119,7 +119,7 @@ public class CustomRecyclerView extends RecyclerView.Adapter<CustomRecyclerView.
         String type = expenseType.get(position);
         String tag = expenseTag.get(position);
         String note = expenseNote.get(position);
-        holder.bindData(sno,name, String.valueOf(sno),type,tag, date,note);
+        holder.bindData(sno,name,amount,type,tag, date,note);
     }
     public void setOnItemClickListener(OnItemClickListener listener){
         onItemClickListener = listener;

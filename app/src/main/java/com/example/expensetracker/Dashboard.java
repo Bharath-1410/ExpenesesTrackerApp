@@ -112,7 +112,7 @@ public class Dashboard extends Fragment {
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(updatedId,images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName,updatedExpenseNote,context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(customRecyclerView);
-        setAllAmounts(context);
+        Dashboard.setAllAmounts(context);
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -154,7 +154,7 @@ public class Dashboard extends Fragment {
                     updatedExpenseType.remove(position);
                     updatedExpenseCustomName.remove(position);
                     DBHelper.deleteRecord(context.getApplicationContext(), removedId);
-                    setAllAmounts(context);
+                    Dashboard.setAllAmounts(context);
                     Log.i("ExpenseTracker", "Dashboard onItemLongClick: Deletion Successful "+position);
                 } catch (Exception e) {
                     Log.e("ExpenseTracker", "Dashboard onItemLongClick: " + e.toString());

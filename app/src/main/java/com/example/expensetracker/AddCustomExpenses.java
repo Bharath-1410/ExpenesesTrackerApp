@@ -107,11 +107,11 @@ public class AddCustomExpenses extends Activity {
                         Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),AddCustomExpenses.this);
                     Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Dashboard next Expenses");
                     } else if (MainActivity.currentFragment.equals("Expenses")) {
-                        Expenses.updateRecyclerViewExpenses(getApplicationContext(), Expenses.getExpenseRecyclerView(), AddCustomExpenses.this);
+                        Expenses.updateRecyclerViewExpenses(getApplicationContext(), AddCustomExpenses.this);
                         Log.d("ExpenseTracker", "AddCustomExpenses onClick: Updated Expenses next Savings");
                     }else {
-                    Savings.updateRecyclerViewSavings(getApplicationContext(),Savings.getSavingsRecyclerView(),AddCustomExpenses.this);
-                    Log.w("ExpenseTracker", "AddCustomExpenses onClick: Updated Saving");
+                        Savings.updateRecyclerViewSavings(getApplicationContext(),AddCustomExpenses.this);
+                        Log.w("ExpenseTracker", "AddCustomExpenses onClick: Updated Saving");
                     }
                     Log.e("ExpenseTracker", "AddCustomExpenses onClick: "+MainActivity.currentFragment );
                     Log.i("ExpenseTracker", "AddCustomExpenses onClick Successfully Updated Dashboard, Expenses, Savings Fragments");

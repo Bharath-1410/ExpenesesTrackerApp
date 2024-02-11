@@ -3,6 +3,7 @@ package com.example.expensetracker;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -86,5 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 Log.i("ExpenseTracker", "Starting Activity To Add a New Transaction");
         });
+    }
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (currentFragment instanceof Savings) {
+            Log.i("ExpenseTracker", "onBackPressed: Blocked Savings");
+        } else if (currentFragment instanceof Expenses) {
+            Log.i("ExpenseTracker", "onBackPressed: Blocked Expenses");
+        }else {
+            Log.i("ExpenseTracker", "onBackPressed: Blocked Dashboard");
+        }
     }
 }

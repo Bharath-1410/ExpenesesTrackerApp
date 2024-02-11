@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="3000"
-                android:textColor="@color/textColor"
+                android:textColor="@color/saving"
                 android:textSize="24dp"
                 android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="5dp"
-                android:text="Recent Expenses"
+                android:text="Recent Savings"
                 android:textColor="@color/textColor" />
 
             <androidx.recyclerview.widget.RecyclerView

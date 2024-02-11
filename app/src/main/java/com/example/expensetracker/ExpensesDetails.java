@@ -2,16 +2,19 @@ package com.example.expensetracker;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -88,12 +91,16 @@ public class ExpensesDetails extends AppCompatActivity {
                     String date = String.valueOf(expenseDate.getText());
                     String note = String.valueOf(expenseNote.getText());
                     DBHelper.updateTransaction(id,new Transaction(name,amount,type,tag,date,note),getApplicationContext());
-                    Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),ExpensesDetails.this);
-                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Dashboard Next Expenses");
-//                    Expenses.updateRecyclerViewExpenses(getApplicationContext(),Dashboard.getExpenseRecyclerView(),ExpensesDetails.this);
-//                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Expenses Next Savings");
-//                    Savings.updateRecyclerViewSavings(getApplicationContext(),savingsView,ExpensesDetails.this);
-//                    Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Savings");
+                    if(MainActivity.currentFragment.equals("Dashboard")){
+                        Dashboard.updateRecyclerViewData(getApplicationContext(),Dashboard.getExpenseRecyclerView(),ExpensesDetails.this);
+                        Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Dashboard Next Expenses");
+                    } else if (MainActivity.currentFragment.equals("Expenses")) {
+                        Expenses.updateRecyclerViewExpenses(getApplicationContext(),ExpensesDetails.this);
+                        Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Expenses Next Savings");
+                    }else{
+                        Savings.updateRecyclerViewSavings(getApplicationContext(),ExpensesDetails.this);
+                        Log.d("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Savings");
+                    }
                     AddCustomExpenses.addSnackBar(v,"Successfully Updated "+name,"Success");
                     Log.d("update", "Updation Successfully");
                     Log.i("ExpenseTracker", "ExpensesDetails onClick: Successfully Updated Record");

@@ -80,14 +80,14 @@ public class Expenses extends Fragment {
         totalExpense  = view.findViewById(R.id.titleAmount);
         try {
             totalExpense.setText("-"+DBHelper.getTotalExpenses(getContext()));
-            updateRecyclerViewExpenses(getContext(),expenseRecyclerView,getActivity());
+            updateRecyclerViewExpenses(getContext(),getActivity());
             Log.i("ExpenseTracker", "onCreateView: Successfully Updated Recyclerview And ExpensesTextView");
         }catch (Exception e){
             Log.e("ExpenseTracker", "Expenses onCreateView: Failed In Updated Recyclerview And ExpensesTextView"+e.toString() );
         }
         return view;
     }
-    public static void updateRecyclerViewExpenses(Context context, RecyclerView recyclerView, Activity activity) {
+    public static void updateRecyclerViewExpenses(Context context, Activity activity) {
         String[] projection = {"sno","name", "amount", "type", "tag", "date", "note"};
         String selection = "type=?";
         String[] selectionArgs = {"Expense"};
@@ -112,8 +112,9 @@ public class Expenses extends Fragment {
             images.add(Expenses.img);
         }
         CustomRecyclerView customRecyclerView = new CustomRecyclerView(updatedId,images, updatedExpenseAmount,updatedExpenseType, updatedExpenseTag, updatedExpenseDate, updatedExpenseCustomName,updatedExpenseNote,context);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(customRecyclerView);
+        Expenses.getExpenseRecyclerView().setLayoutManager(new LinearLayoutManager(context));
+        Expenses.getExpenseRecyclerView().setAdapter(customRecyclerView);
+        Expenses.setTotalExpenses(context);
         customRecyclerView.setOnItemClickListener(new CustomRecyclerView.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -155,7 +156,7 @@ public class Expenses extends Fragment {
                     updatedExpenseCustomName.remove(position);
                     customRecyclerView.notifyItemRemoved(position);
                     DBHelper.deleteRecord(context.getApplicationContext(), removedId);
-
+                    Expenses.setTotalExpenses(context);
                     Log.i("ExpenseTracker", "Expenses onItemLongClick: Deletion Successful ");
                 } catch (Exception e) {
                     Log.e("ExpenseTracker", "Expenses onItemLongClick: " + e.toString());
