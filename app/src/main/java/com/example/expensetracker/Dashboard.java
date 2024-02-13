@@ -3,6 +3,7 @@ package com.example.expensetracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -29,7 +30,8 @@ import java.util.ArrayList;
  */
 public class Dashboard extends Fragment {
     View view;
-    public static TextView totalExpense,totalAmount,totalSavings;
+    public static TextView totalExpense,totalAmount,totalSavings,remainingAmount;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -77,6 +79,7 @@ public class Dashboard extends Fragment {
         totalExpense = view.findViewById(R.id.totalExpenses);
         totalAmount = view.findViewById(R.id.totalAmount);
         totalSavings = view.findViewById(R.id.totalIncome);
+        remainingAmount = view.findViewById(R.id.remainingAmount);
         try {
             updateRecyclerViewData(getContext(),expenseRecyclerView,getActivity());
             Log.d("Dashboard", "Dashboard is updated Successfully");
@@ -166,6 +169,16 @@ public class Dashboard extends Fragment {
     }
     public static void setAllAmounts(Context context){
         totalAmount.setText(""+(DBHelper.getTotalIncome(context) + DBHelper.getTotalExpenses(context)));
+        int val = DBHelper.getTotalIncome(context) - DBHelper.getTotalExpenses(context);
+        String expenseColor = "#d44444";
+        String savingsColor = "#28BD78";
+        if (val>=0){
+            remainingAmount.setText("+"+val);
+            remainingAmount.setTextColor(Color.parseColor(savingsColor));
+        }else{
+            remainingAmount.setText("-"+val);
+            remainingAmount.setTextColor(Color.parseColor((expenseColor)));
+        }
         totalExpense.setText("-"+DBHelper.getTotalExpenses(context));
         totalSavings.setText("+"+DBHelper.getTotalIncome(context));
         Log.i("ExpenseTracker", "Dashboard setAllAmounts Is Executed Successfully");
@@ -173,14 +186,5 @@ public class Dashboard extends Fragment {
     public static RecyclerView getExpenseRecyclerView(){
         Log.d("ExpenseTracker", "Dashboard getExpenseRecyclerView() returned: " + expenseRecyclerView);
         return expenseRecyclerView;
-    }
-    public static TextView getTotalExpense(){
-        return totalExpense;
-    }
-    public static TextView getTotalAmount(){
-        return totalAmount;
-    }
-    public static TextView getTotalSavings(){
-        return totalSavings;
     }
 }
